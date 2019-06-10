@@ -3,11 +3,11 @@
   <title>FengerBlog</title>
   
   <subtitle>FengerBlog</subtitle>
-  <link href="/atom.xml" rel="self"/>
+  <link href="/blog/atom.xml" rel="self"/>
   
-  <link href="https://num-github.github.io/"/>
+  <link href="https://num-github.github.io/blog/"/>
   <updated>2019-06-10T00:43:26.181Z</updated>
-  <id>https://num-github.github.io/</id>
+  <id>https://num-github.github.io/blog/</id>
   
   <author>
     <name>Fenger</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title></title>
-    <link href="https://num-github.github.io/2019/06/10/seaborn-1/"/>
-    <id>https://num-github.github.io/2019/06/10/seaborn-1/</id>
+    <link href="https://num-github.github.io/blog/2019/06/10/seaborn-1/"/>
+    <id>https://num-github.github.io/blog/2019/06/10/seaborn-1/</id>
     <published>2019-06-10T00:30:07.509Z</published>
     <updated>2019-06-10T00:43:26.181Z</updated>
     
@@ -39,8 +39,8 @@
   
   <entry>
     <title>Get start !</title>
-    <link href="https://num-github.github.io/2019/06/06/Get-start/"/>
-    <id>https://num-github.github.io/2019/06/06/Get-start/</id>
+    <link href="https://num-github.github.io/blog/2019/06/06/Get-start/"/>
+    <id>https://num-github.github.io/blog/2019/06/06/Get-start/</id>
     <published>2019-06-05T23:06:17.000Z</published>
     <updated>2019-06-05T23:07:50.594Z</updated>
     
@@ -61,8 +61,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://num-github.github.io/2019/06/05/hello-world/"/>
-    <id>https://num-github.github.io/2019/06/05/hello-world/</id>
+    <link href="https://num-github.github.io/blog/2019/06/05/hello-world/"/>
+    <id>https://num-github.github.io/blog/2019/06/05/hello-world/</id>
     <published>2019-06-05T22:30:33.950Z</published>
     <updated>2019-06-05T22:30:33.950Z</updated>
     
