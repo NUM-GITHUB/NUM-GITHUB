@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://num-github.github.io/"/>
-  <updated>2019-06-10T01:21:51.489Z</updated>
+  <updated>2019-06-30T13:26:02.030Z</updated>
   <id>https://num-github.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://num-github.github.io/2019/06/30/Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux/"/>
+    <id>https://num-github.github.io/2019/06/30/Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux/</id>
+    <published>2019-06-30T12:45:06.155Z</published>
+    <updated>2019-06-30T13:26:02.030Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux-tensorflow-can-only-see-CPU-Could-not-dlopen-library-‘libcuda-so-1’-failed-call-to-cuInit-UNKNOWN-ERROR-303"><a href="#Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux-tensorflow-can-only-see-CPU-Could-not-dlopen-library-‘libcuda-so-1’-failed-call-to-cuInit-UNKNOWN-ERROR-303" class="headerlink" title="Problems for using gpu for Tensorflow or Keras network on linux: tensorflow can only see CPU: Could not dlopen library ‘libcuda.so.1’;  failed call to cuInit: UNKNOWN ERROR (303);"></a>Problems for using gpu for Tensorflow or Keras network on linux: tensorflow can only see CPU: Could not dlopen library ‘libcuda.so.1’;  failed call to cuInit: UNKNOWN ERROR (303);</h1><p>The problem that I meet here is that when using an GPU cluster, my code ‘’with tf.device(‘/gpu:0’):’’ cannot run. If you meet the same problem, you can firstly run the following code:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'CUDA_VISIBLE_DEVICES'</span>] = <span class="string">"0"</span></span><br><span class="line"><span class="keyword">from</span> tensorflow.python.client <span class="keyword">import</span> device_lib</span><br><span class="line">print(device_lib.list_local_devices())</span><br></pre></td></tr></table></figure><p>If the code above cannot show any information about your GPU, then you need to check the cuda and cudnn that you installed. The version must meet your tensorflow version: <a href="https://www.tensorflow.org/install/source#tested_build_configurations" target="_blank" rel="noopener">https://www.tensorflow.org/install/source#tested_build_configurations</a></p><p>If you don’t have cude or cudnn, you can following the steps of AndrewPt in <a href="https://stackoverflow.com/questions/41402409/tensorflow-doesnt-seem-to-see-my-gpu" target="_blank" rel="noopener">https://stackoverflow.com/questions/41402409/tensorflow-doesnt-seem-to-see-my-gpu</a> to install them (but it is windows, be careful for you linux, you need to down different documents)</p><p>Then check whether you LD_LIBRARY_PATH contain the path for right cuda path, the path mush contain ‘libcuda.so.1’ ( for me it is in ‘’/home/.usr/local/cuda-10.0/lib64/stubs’), </p><p>and  ‘libcuda.so.XX.X (XX.X is your cuda version for me it is in /home/.usr/local/cuda-10.0/lib64)</p><p>Then, you must also ensure the cudnn file that contain libcudnn.so.7 is in LD_LIBRARY_PATH. For this step, you need to download cudnn. For me, I was download cudnn 7.4 for cuda 10.0 in <a href="https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v7.4.1.5/prod/10.0_20181108/RHEL7_3-x64/libcudnn7-7.4.1.5-1.cuda10.0.x86_64.rpm" target="_blank" rel="noopener">cuDNN Runtime Library for RedHat/Centos 7.3 (RPM)</a> (libcudnn7-7.4.1.5-1.cuda10.0.x86_64), and there is libcudnn.so.7 in \libcudnn7-7.4.1.5-1.cuda10.0.x86_64\usr\lib64 and you can also see l ibcudnn.so.7.4.1 in it. </p><p>Extract and copy this to your linux and then, you need to delete  libcudnn.so.7, the run the following code to generate it </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln -s libcudnn.so.7.4.1 libcudnn.so.7</span><br><span class="line">ln -s libcudnn.so.7 libcudnn.so </span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure><p>You can see both libcudnn.so.7.4.1 and libcudnn.so.7 is in the file. You can add it to  LD_LIBRARY_PATH and then run </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'CUDA_VISIBLE_DEVICES'</span>] = <span class="string">"0"</span></span><br><span class="line"><span class="keyword">from</span> tensorflow.python.client <span class="keyword">import</span> device_lib</span><br><span class="line">print(device_lib.list_local_devices())</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">The tensorflow should see the gpu without an error</span><br></pre></td></tr></table></figure><p>2019-06-30 14:24:17.432330: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties:<br>name: TITAN Xp major: 6 minor: 1 memoryClockRate(GHz): 1.582<br>pciBusID: 0000:db:00.0<br>2019-06-30 14:24:17.432437: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudart.so.10.0<br>2019-06-30 14:24:17.432473: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcublas.so.10.0<br>2019-06-30 14:24:17.432502: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcufft.so.10.0<br>2019-06-30 14:24:17.432529: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcurand.so.10.0<br>2019-06-30 14:24:17.432556: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusolver.so.10.0<br>2019-06-30 14:24:17.432582: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcusparse.so.10.0<br>2019-06-30 14:24:17.432610: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7<br>2019-06-30 14:24:17.478617: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0<br>2019-06-30 14:24:17.478691: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:<br>2019-06-30 14:24:17.478715: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0<br>2019-06-30 14:24:17.478734: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N<br>2019-06-30 14:24:17.498562: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1326] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 11439 MB memory) -&gt; physical GPU (device: 0, name: TITAN Xp, pci bus id: 0000:db:00.0, compute capability: 6.1)<br>[name: “/device:CPU:0”<br>device_type: “CPU”<br>memory_limit: 268435456<br>locality {<br>}incarnation: 7765454328739896397<br>, name: “/device:XLA_GPU:0”<br>device_type: “XLA_GPU”<br>memory_limit: 17179869184<br>locality {<br>}incarnation: 14436236814517186873<br>physical_device_desc: “device: XLA_GPU device”<br>, name: “/device:XLA_CPU:0”<br>device_type: “XLA_CPU”<br>memory_limit: 17179869184<br>locality {<br>}incarnation: 10506527593758283137<br>physical_device_desc: “device: XLA_CPU device”<br>, name: “/device:GPU:0”<br>device_type: “GPU”<br>memory_limit: 11994670695<br>locality {<br>  bus_id: 2<br>  numa_node: 1<br>  links {<br>  }<br>}incarnation: 9840900236876381126<br>physical_device_desc: “device: 0, name: TITAN Xp, pci bus id: 0000:db:00.0, compute capability: 6.1”<br>]</p><pre><code></code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux-tensorflow-can-only-see-CPU-Could-not-dlopen-library-‘libcuda-so-1’-
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Distribution related function in Seaborn</title>
@@ -52,27 +73,6 @@
       
         &lt;p&gt;The start of my career.&lt;/p&gt;
 
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://num-github.github.io/2019/06/05/hello-world/"/>
-    <id>https://num-github.github.io/2019/06/05/hello-world/</id>
-    <published>2019-06-05T22:30:33.950Z</published>
-    <updated>2019-06-05T22:30:33.950Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
       
     
     </summary>
