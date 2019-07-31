@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>gazebo and unity comparation | FengerBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="gazebo and unity comparationUnity have better functionality. It is very powerful, fast and easy to use compared to gazebo. You don’t need to modify some sdf or other files directly to change the hiera">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gazebo and unity comparation">
+<meta property="og:url" content="https://num-github.github.io/2019/07/31/gazebo-and-unity-comparation/index.html">
+<meta property="og:site_name" content="FengerBlog">
+<meta property="og:description" content="gazebo and unity comparationUnity have better functionality. It is very powerful, fast and easy to use compared to gazebo. You don’t need to modify some sdf or other files directly to change the hiera">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-31T15:37:56.009Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gazebo and unity comparation">
+<meta name="twitter:description" content="gazebo and unity comparationUnity have better functionality. It is very powerful, fast and easy to use compared to gazebo. You don’t need to modify some sdf or other files directly to change the hiera">
+  
+    <link rel="alternate" href="/atom.xml" title="FengerBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">FengerBlog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">FengerBlog</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://num-github.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-gazebo-and-unity-comparation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/31/gazebo-and-unity-comparation/" class="article-date">
+  <time datetime="2019-07-31T15:36:28.000Z" itemprop="datePublished">2019-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      gazebo and unity comparation
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="gazebo-and-unity-comparation"><a href="#gazebo-and-unity-comparation" class="headerlink" title="gazebo and unity comparation"></a>gazebo and unity comparation</h3><p>Unity have better functionality. It is very powerful, fast and easy to use compared to gazebo. You don’t need to modify some sdf or other files directly to change the hierarchy and inspector directly in order to change the parameters of an object and it support many types of files. The animation and world built by unity is more beautiful than gazebo, as well. Actually, unity is able to generate and edit some necessary file by using ROS# that is necessary for ROS and even do some simulation (even though you need to using TCP protocol to connect to ROS). Therefore, from the respect of editing sdf, URDF or do some animation, unity is more superior. Furthermore, unity can, according to ROS# Wiki, do both simulation and visualization together instead of separate tools (rviz for visualization, gazebo for simulation). Moreover, since this lab is mixed reality lab, you might have some persons that are expert in unity or you add some VR or AR stuffs to the robot, so in these applications, unity is always better than gazebo in develop these stuffs, especially multiclient support is necessary. </p>
+<p>For gazebo, however, the main advantages are more focus on ROS itself, it has a straightforward connection, and I think it is good for beginners who just want to do some work on robot. The learning materials or tutorials that relate to ROS are far more than unity. In fact, if you have no knowledge about C# or don’t want to write some raw code to communication with ROS, the best thing that I found is ROS# for unity, which only have its wiki and few videos. Thus, for a beginner, especially the person who have no knowledge on both software, gazebo could be better. The next thing about that is plugin and support, Gazebo have many plugins for robot. According to the official tutorial, there are already some plugins like cameras, IMUs, and lasers that is written by some company or people (most of them written in C\C++). They can be easily called and used directly by following the step of tutorial. In addition, some company that produce robot (e.g. swayer robot) provide relevant simulation code for gazebo, you can just run and try it directly. In contrast, for unity, if you want to use such sensors, it would be harder to find the code to simulate it in unity and even if you are able to write a plugin or find something very similar, it might necessary to learn C# (I’m not sure other students, but for electrical and electronic engineering, only C\C++ is compulsory). </p>
+<p>In fact, according to ROS#, unity and gazebo can be used together. There is a demo that set up a simulation world on gazebo and do visualization on unity, so I think depending what we will do, we can try both methods to achieve our goals. </p>
+<p>In summary, unity have better and useful functionality, but gazebo is good at dealing with ROS, so in order to determine which method to choose, we would better determine what is available and what’s the whole project looks like. In next section, based on the analysis above, I will list some conditions that unity or gazebo would be certainly better. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://num-github.github.io/2019/07/31/gazebo-and-unity-comparation/" data-id="cjyrfjmnx00031gupvtqgzznf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/25/Note for RPN/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/07/31/gazebo-and-unity-comparation/">gazebo and unity comparation</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/25/Note for RPN/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/21/Review of SiamMask/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/13/Investigation-for-Reinforcement-Learning-in-robotic/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/30/Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fenger<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
