@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="FengerBlog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="SiamMask NoteSiamMask is a model that is that I found very interesting recently. It is the model that can automatically mask an instance as long as an initial bounding boxes has been given you can fin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SiamMask Note">
+<meta property="og:url" content="https://num-github.github.io/2019/07/12/Review of SiamMask/index.html">
+<meta property="og:site_name" content="FengerBlog">
+<meta property="og:description" content="SiamMask NoteSiamMask is a model that is that I found very interesting recently. It is the model that can automatically mask an instance as long as an initial bounding boxes has been given you can fin">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://num-github.github.io/2019/07/12/Review%20of%20SiamMask/1563725602695.png">
+<meta property="og:image" content="https://num-github.github.io/2019/07/12/Review%20of%20SiamMask/1563872260341.png">
+<meta property="og:image" content="https://num-github.github.io/2019/07/12/Review%20of%20SiamMask/1563874125216.png">
+<meta property="og:image" content="https://num-github.github.io/2019/07/12/Review%20of%20SiamMask/1563889858564.png">
+<meta property="og:updated_time" content="2019-08-30T13:19:57.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SiamMask Note">
+<meta name="twitter:description" content="SiamMask NoteSiamMask is a model that is that I found very interesting recently. It is the model that can automatically mask an instance as long as an initial bounding boxes has been given you can fin">
+<meta name="twitter:image" content="https://num-github.github.io/2019/07/12/Review%20of%20SiamMask/1563725602695.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://num-github.github.io/2019/07/12/Review of SiamMask/">
+
+
+
+
+
+  <title>SiamMask Note | FengerBlog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FengerBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">FengerBlog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/07/12/Review of SiamMask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fenger">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FengerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SiamMask Note</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-12T00:00:00+01:00">
+                2019-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="SiamMask-Note"><a href="#SiamMask-Note" class="headerlink" title="SiamMask Note"></a><a href="https://arxiv.org/pdf/1812.05050.pdf" target="_blank" rel="noopener">SiamMask</a> Note</h3><p><em>SiamMask is a model that is that I found very interesting recently. It is the model that can automatically mask an instance as long as an initial bounding boxes has been given you can find the code in github at <a href="https://github.com/foolwood/SiamMask" target="_blank" rel="noopener">here</a></em></p>
+<p>In this article I will describe the development of siamMask based on its time line: from SiamFC, then SiamRPN, finally SiamMask</p>
+<h4 id="SiamFC"><a href="#SiamFC" class="headerlink" title="SiamFC"></a>SiamFC</h4><p>SiamFC is the network for object tracking. The basic thinking for it is to continually compare the similarity between the first image and sliding windows from the last few images so as to generate a score map or <strong>RoW</strong> for similarity.</p>
+<p><img src="/2019/07/12/Review of SiamMask/1563725602695.png" alt="1563725602695"></p>
+<p>The mathematical expression for this SiamFC can be expressed as </p>
+<script type="math/tex; mode=display">
+g_s(z,x)=f_e(z)*f_e(x)</script><p>where z is the initial images, x is the next large images, $f_e(z) $ is embedding network and * simple cross-correlation. The training goal for this network is to maximize the score in score map to correspond to the target location is search area.</p>
+<h5 id="What’s-improved-on-siamMask"><a href="#What’s-improved-on-siamMask" class="headerlink" title="What’s improved on siamMask"></a>What’s improved on siamMask</h5><p>For SiamMask, they improved the network architecture by output multi-channel score map rather than a single score map. Then, it replace simple cross-correlation with depth-wise cross-correlation which is a neural network. </p>
+<h4 id="SiamMask"><a href="#SiamMask" class="headerlink" title="SiamMask"></a>SiamMask</h4><p>The architecture of SiamMask was shown blow</p>
+<p><img src="/2019/07/12/Review of SiamMask/1563872260341.png" alt="1563872260341"></p>
+<p>As you can see here, an mask and boxes part is added to the end of SiamMask. In this case, we just mainly talk about the mask part, the box and score is mainly proposed in SiamRPN.</p>
+<p>More detailed architecture of it was shown in the next figure. The main <a href="https://github.com/foolwood/SiamMask" target="_blank" rel="noopener">code</a> is in custom.py. The code don’t have much comments, so I select some important code and add some comments for explanation in the following explanation.   </p>
+<p><img src="/2019/07/12/Review of SiamMask/1563874125216.png" alt="1563874125216"></p>
+<p>In the architecture above, the mask head was replaced by a refinement model which was inspired by <a href="https://arxiv.org/pdf/1603.08695.pdf" target="_blank" rel="noopener">this paper</a> which aim to refine the smaller mask to a bigger mask by using the features extracted from pervious convolution. </p>
+<p>The whole architecture of it was written as shown below</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Custom</span><span class="params">(SiamMask)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pretrain=False, **kwargs)</span>:</span></span><br><span class="line">        super(Custom, self).__init__(**kwargs)</span><br><span class="line">        <span class="comment">#tailored ResNet50+adjust layer</span></span><br><span class="line">        self.features = ResDown(pretrain=pretrain)</span><br><span class="line">        <span class="comment">#the parts for boundings boxes and classification (not discussed here, more detail are in SiamRPN)</span></span><br><span class="line">        self.rpn_model = UP(anchor_num=self.anchor_num, feature_in=<span class="number">256</span>, feature_out=<span class="number">256</span>)</span><br><span class="line">        <span class="comment">#Depth-wise correlation Maskcorr()&lt;-DepthCorr()</span></span><br><span class="line">        self.mask_model = MaskCorr()</span><br><span class="line">        <span class="comment">#Refinement part</span></span><br><span class="line">        self.refine_model = Refine()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">refine</span><span class="params">(self, f, pos=None)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.refine_model(f, pos)</span><br><span class="line">    </span><br><span class="line">	<span class="comment">#Embedding for the initialization image (the smaller 127×127×3 image z) for target.</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">template</span><span class="params">(self, template)</span>:</span></span><br><span class="line">        self.zf = self.features(template)</span><br><span class="line">        </span><br><span class="line">	<span class="comment">#For classification and bounding boxes</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">track</span><span class="params">(self, search)</span>:</span></span><br><span class="line">        search = self.features(search)</span><br><span class="line">        rpn_pred_cls, rpn_pred_loc = self.rpn(self.zf, search)</span><br><span class="line">        <span class="keyword">return</span> rpn_pred_cls, rpn_pred_loc</span><br><span class="line">	</span><br><span class="line">    <span class="comment">#The main archtecture  </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">track_mask</span><span class="params">(self, search)</span>:</span></span><br><span class="line">        <span class="comment"># self.feature is the output feature extracted from ResNet at each layer stage</span></span><br><span class="line">        <span class="comment">#self.search is the output of adjust layer</span></span><br><span class="line">        self.feature, self.search = self.features.forward_all(search)</span><br><span class="line">        <span class="comment">#the parts for boundings boxes and classification (not discussed here, more detail are in SiamRPN)</span></span><br><span class="line">        rpn_pred_cls, rpn_pred_loc = self.rpn(self.zf, self.search)</span><br><span class="line">        <span class="comment">#Initialized embedding and the embedding for search image feed into depth-wise correlation without calling the head for generating mask</span></span><br><span class="line">        self.corr_feature = self.mask_model.mask.forward_corr(self.zf, self.search)</span><br><span class="line">        <span class="comment"># mask output without refinement (call mathod 'head' in DepthCorr())</span></span><br><span class="line">        pred_mask = self.mask_model.mask.head(self.corr_feature)</span><br><span class="line">        <span class="keyword">return</span> rpn_pred_cls, rpn_pred_loc, pred_mask</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">track_refine</span><span class="params">(self, pos)</span>:</span></span><br><span class="line">        <span class="comment"># mask output with refinement</span></span><br><span class="line">        pred_mask = self.refine_model(self.feature, self.corr_feature, pos=pos, test=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> pred_mask</span><br></pre></td></tr></table></figure>
+<p>The embedding network is two ResNet50 with only the first four layers and then added an adjust layer to adjust channels. The important code for these two part  is shown in below (unnecessary code was deleted).</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResDown</span><span class="params">(MultiStageFeature)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pretrain=False)</span>:</span></span><br><span class="line">        super(ResDown, self).__init__()</span><br><span class="line">        self.features = resnet50(layer3=<span class="literal">True</span>, layer4=<span class="literal">False</span>)</span><br><span class="line">        self.downsample = ResDownS(<span class="number">1024</span>, <span class="number">256</span>)</span><br><span class="line"><span class="comment">#In forward or forward_all, the tailored Resnet50 and adjust layer (downsample) was connected</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        output = self.features(x)</span><br><span class="line">        p3 = self.downsample(output[<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> p3 </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward_all</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        output = self.features(x)</span><br><span class="line">        p3 = self.downsample(output[<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> output, p3  </span><br><span class="line"><span class="comment">#The 'output' is the features extracted by ResNet and can be used of mask refinement.</span></span><br><span class="line"><span class="comment">#p3 is the embeding that will be feed into depth-wise correlation.</span></span><br></pre></td></tr></table></figure>
+<p>The ‘output’ is the features extracted by ResNet and can be used of mask refinement, which consists the 3 features for refinement and one features for adjustment. The forward output of its ResNet is 4 values from each stage of ResNet.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">       ........</span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">       x = self.conv1(x)</span><br><span class="line">       x = self.bn1(x)</span><br><span class="line">       p0 = self.relu(x)</span><br><span class="line">       x = self.maxpool(p0)</span><br><span class="line"></span><br><span class="line">       p1 = self.layer1(x)</span><br><span class="line">       p2 = self.layer2(p1)</span><br><span class="line">       p3 = self.layer3(p2)</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> p0, p1, p2, p3</span><br></pre></td></tr></table></figure>
+<p>p3 is the embedding that will be feed into depth-wise correlation.</p>
+<p>In adjustment layer, one 1×1 kernel convolutional layer was applied with batch normalization.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResDownS</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, inplane, outplane)</span>:</span></span><br><span class="line">        super(ResDownS, self).__init__()</span><br><span class="line">        self.downsample = nn.Sequential(</span><br><span class="line">                nn.Conv2d(inplane, outplane, kernel_size=<span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                nn.BatchNorm2d(outplane))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = self.downsample(x)</span><br><span class="line">        <span class="keyword">if</span> x.size(<span class="number">3</span>) &lt; <span class="number">20</span>:</span><br><span class="line">            l = <span class="number">4</span></span><br><span class="line">            r = <span class="number">-4</span></span><br><span class="line">            x = x[:, :, l:r, l:r]</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<p>Depth-wise correlation is still achieved with the architecture as below (the parameters of in_channels, hidden, out_channels are 256, 256, 63*63)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MaskCorr</span><span class="params">(Mask)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, oSz=<span class="number">63</span>)</span>:</span></span><br><span class="line">        super(MaskCorr, self).__init__()</span><br><span class="line">        self.oSz = oSz</span><br><span class="line">        self.mask = DepthCorr(<span class="number">256</span>, <span class="number">256</span>, self.oSz**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, z, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.mask(z, x)</span><br></pre></td></tr></table></figure>
+<p>DepthCorr called by  MaskCorr.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv2d_dw_group</span><span class="params">(x, kernel)</span>:</span></span><br><span class="line">    batch, channel = kernel.shape[:<span class="number">2</span>]</span><br><span class="line">    x = x.view(<span class="number">1</span>, batch*channel, x.size(<span class="number">2</span>), x.size(<span class="number">3</span>))  <span class="comment"># 1 * (b*c) * k * k</span></span><br><span class="line">    kernel = kernel.view(batch*channel, <span class="number">1</span>, kernel.size(<span class="number">2</span>), kernel.size(<span class="number">3</span>))  <span class="comment"># (b*c) * 1 * H * W</span></span><br><span class="line">    out = F.conv2d(x, kernel, groups=batch*channel)</span><br><span class="line">    out = out.view(batch, channel, out.size(<span class="number">2</span>), out.size(<span class="number">3</span>))</span><br><span class="line">    <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DepthCorr</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_channels, hidden, out_channels, kernel_size=<span class="number">3</span>)</span>:</span></span><br><span class="line">        super(DepthCorr, self).__init__()</span><br><span class="line">        <span class="comment"># adjust layer for asymmetrical features</span></span><br><span class="line">        self.conv_kernel = nn.Sequential(</span><br><span class="line">                nn.Conv2d(in_channels, hidden, kernel_size=kernel_size, bias=<span class="literal">False</span>),</span><br><span class="line">                nn.BatchNorm2d(hidden),</span><br><span class="line">                nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">                )</span><br><span class="line">        self.conv_search = nn.Sequential(</span><br><span class="line">                nn.Conv2d(in_channels, hidden, kernel_size=kernel_size, bias=<span class="literal">False</span>),</span><br><span class="line">                nn.BatchNorm2d(hidden),</span><br><span class="line">                nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">                )</span><br><span class="line">		<span class="comment">#mask head</span></span><br><span class="line">        self.head = nn.Sequential(</span><br><span class="line">                nn.Conv2d(hidden, hidden, kernel_size=<span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                nn.BatchNorm2d(hidden),</span><br><span class="line">                nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">                nn.Conv2d(hidden, out_channels, kernel_size=<span class="number">1</span>)</span><br><span class="line">                )</span><br><span class="line">	<span class="comment">#output without adding mask head</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward_corr</span><span class="params">(self, kernel, input)</span>:</span></span><br><span class="line">        kernel = self.conv_kernel(kernel)</span><br><span class="line">        input = self.conv_search(input)</span><br><span class="line">        feature = conv2d_dw_group(input, kernel)</span><br><span class="line">        <span class="keyword">return</span> feature</span><br><span class="line">	<span class="comment">#output with mask head</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, kernel, search)</span>:</span></span><br><span class="line">        feature = self.forward_corr(kernel, search)</span><br><span class="line">        out = self.head(feature)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+<p>In Refinement stage, you can clearly see the structure: deconvolute the output from depth-wise convolution and the three stage refinement in last few lines of forward method.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Refine</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Refine, self).__init__()</span><br><span class="line">        self.v0 = nn.Sequential(nn.Conv2d(<span class="number">64</span>, <span class="number">16</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">                           nn.Conv2d(<span class="number">16</span>, <span class="number">4</span>, <span class="number">3</span>, padding=<span class="number">1</span>),nn.ReLU())</span><br><span class="line"></span><br><span class="line">        self.v1 = nn.Sequential(nn.Conv2d(<span class="number">256</span>, <span class="number">64</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">                           nn.Conv2d(<span class="number">64</span>, <span class="number">16</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU())</span><br><span class="line"></span><br><span class="line">        self.v2 = nn.Sequential(nn.Conv2d(<span class="number">512</span>, <span class="number">128</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">                           nn.Conv2d(<span class="number">128</span>, <span class="number">32</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU())</span><br><span class="line"></span><br><span class="line">        self.h2 = nn.Sequential(nn.Conv2d(<span class="number">32</span>, <span class="number">32</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">                           nn.Conv2d(<span class="number">32</span>, <span class="number">32</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU())</span><br><span class="line"></span><br><span class="line">        self.h1 = nn.Sequential(nn.Conv2d(<span class="number">16</span>, <span class="number">16</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">                           nn.Conv2d(<span class="number">16</span>, <span class="number">16</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU())</span><br><span class="line"></span><br><span class="line">        self.h0 = nn.Sequential(nn.Conv2d(<span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">                           nn.Conv2d(<span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, padding=<span class="number">1</span>), nn.ReLU())</span><br><span class="line"></span><br><span class="line">        self.deconv = nn.ConvTranspose2d(<span class="number">256</span>, <span class="number">32</span>, <span class="number">15</span>, <span class="number">15</span>)</span><br><span class="line"></span><br><span class="line">        self.post0 = nn.Conv2d(<span class="number">32</span>, <span class="number">16</span>, <span class="number">3</span>, padding=<span class="number">1</span>)</span><br><span class="line">        self.post1 = nn.Conv2d(<span class="number">16</span>, <span class="number">4</span>, <span class="number">3</span>, padding=<span class="number">1</span>)</span><br><span class="line">        self.post2 = nn.Conv2d(<span class="number">4</span>, <span class="number">1</span>, <span class="number">3</span>, padding=<span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> modules <span class="keyword">in</span> [self.v0, self.v1, self.v2, self.h2, self.h1, self.h0, self.deconv, self.post0, self.post1, self.post2,]:</span><br><span class="line">            <span class="keyword">for</span> l <span class="keyword">in</span> modules.modules():</span><br><span class="line">                <span class="keyword">if</span> isinstance(l, nn.Conv2d):</span><br><span class="line">                    nn.init.kaiming_uniform_(l.weight, a=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, f, corr_feature, pos=None, test=False)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> test:</span><br><span class="line">            p0 = torch.nn.functional.pad(f[<span class="number">0</span>], [<span class="number">16</span>, <span class="number">16</span>, <span class="number">16</span>, <span class="number">16</span>])[:, :, <span class="number">4</span>*pos[<span class="number">0</span>]:<span class="number">4</span>*pos[<span class="number">0</span>]+<span class="number">61</span>, <span class="number">4</span>*pos[<span class="number">1</span>]:<span class="number">4</span>*pos[<span class="number">1</span>]+<span class="number">61</span>]</span><br><span class="line">            p1 = torch.nn.functional.pad(f[<span class="number">1</span>], [<span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>])[:, :, <span class="number">2</span> * pos[<span class="number">0</span>]:<span class="number">2</span> * pos[<span class="number">0</span>] + <span class="number">31</span>, <span class="number">2</span> * pos[<span class="number">1</span>]:<span class="number">2</span> * pos[<span class="number">1</span>] + <span class="number">31</span>]</span><br><span class="line">            p2 = torch.nn.functional.pad(f[<span class="number">2</span>], [<span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>])[:, :, pos[<span class="number">0</span>]:pos[<span class="number">0</span>] + <span class="number">15</span>, pos[<span class="number">1</span>]:pos[<span class="number">1</span>] + <span class="number">15</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p0 = F.unfold(f[<span class="number">0</span>], (<span class="number">61</span>, <span class="number">61</span>), padding=<span class="number">0</span>, stride=<span class="number">4</span>).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>).contiguous().view(<span class="number">-1</span>, <span class="number">64</span>, <span class="number">61</span>, <span class="number">61</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> (pos <span class="keyword">is</span> <span class="literal">None</span>): p0 = torch.index_select(p0, <span class="number">0</span>, pos)</span><br><span class="line">            p1 = F.unfold(f[<span class="number">1</span>], (<span class="number">31</span>, <span class="number">31</span>), padding=<span class="number">0</span>, stride=<span class="number">2</span>).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>).contiguous().view(<span class="number">-1</span>, <span class="number">256</span>, <span class="number">31</span>, <span class="number">31</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> (pos <span class="keyword">is</span> <span class="literal">None</span>): p1 = torch.index_select(p1, <span class="number">0</span>, pos)</span><br><span class="line">            p2 = F.unfold(f[<span class="number">2</span>], (<span class="number">15</span>, <span class="number">15</span>), padding=<span class="number">0</span>, stride=<span class="number">1</span>).permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>).contiguous().view(<span class="number">-1</span>, <span class="number">512</span>, <span class="number">15</span>, <span class="number">15</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> (pos <span class="keyword">is</span> <span class="literal">None</span>): p2 = torch.index_select(p2, <span class="number">0</span>, pos)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span>(pos <span class="keyword">is</span> <span class="literal">None</span>):</span><br><span class="line">            p3 = corr_feature[:, :, pos[<span class="number">0</span>], pos[<span class="number">1</span>]].view(<span class="number">-1</span>, <span class="number">256</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p3 = corr_feature.permute(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>).contiguous().view(<span class="number">-1</span>, <span class="number">256</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">##################The structure of refinement. ##################################</span></span><br><span class="line">        out = self.deconv(p3)</span><br><span class="line">        out = self.post0(F.upsample(self.h2(out) + self.v2(p2), size=(<span class="number">31</span>, <span class="number">31</span>)))</span><br><span class="line">        out = self.post1(F.upsample(self.h1(out) + self.v1(p1), size=(<span class="number">61</span>, <span class="number">61</span>)))</span><br><span class="line">        out = self.post2(F.upsample(self.h0(out) + self.v0(p0), size=(<span class="number">127</span>, <span class="number">127</span>)))</span><br><span class="line">        out = out.view(<span class="number">-1</span>, <span class="number">127</span>*<span class="number">127</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+<p>Loss function</p>
+<h4 id="SiamRPN"><a href="#SiamRPN" class="headerlink" title="SiamRPN"></a>SiamRPN</h4><p>Ok, after talking about SiamMask, let’s move on to the parts about classification and bounding box predication. The original figure of siamRPN is the figure shown below, although the later version siamRPN++ has some modified version of it, but I think the following diagram is clear enough to show the core thinking of it. </p>
+<p><img src="/2019/07/12/Review of SiamMask/1563889858564.png" alt="1563889858564"></p>
+<p>Basically, what SiamRPN doing in SiamMask input the two features from a network, in this case, ResNet,  and pass them to classification block and regression block. Then, in these two block, the  the depth-wise correlation will be calculated and gives a series of classification groups and regression groups to determine the bounding boxes. </p>
+<h5 id="Some-problems-that-I-thought"><a href="#Some-problems-that-I-thought" class="headerlink" title="Some problems that I thought:"></a>Some problems that I thought:</h5><p>This model don’t have the function for memory, I think it would be better to add some technique like RNN to update the embedding. </p>
+<p>It only initialize the image but not mask, so the quality of tracking high affected by the first image and in some cases, you cannot initialize an object that with a rectangles.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/30/Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux/" rel="next" title="Problems for using gpu for Tensorflow or Keras network on linux">
+                <i class="fa fa-chevron-left"></i> Problems for using gpu for Tensorflow or Keras network on linux
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/13/Investigation-for-Reinforcement-Learning-in-robotic/" rel="prev" title="Investigation for Reinforcement Learning (RL) in robotic">
+                Investigation for Reinforcement Learning (RL) in robotic <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fenger</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SiamMask-Note"><span class="nav-number">1.</span> <span class="nav-text">SiamMask Note</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SiamFC"><span class="nav-number">1.1.</span> <span class="nav-text">SiamFC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#What’s-improved-on-siamMask"><span class="nav-number">1.1.1.</span> <span class="nav-text">What’s improved on siamMask</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SiamMask"><span class="nav-number">1.2.</span> <span class="nav-text">SiamMask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SiamRPN"><span class="nav-number">1.3.</span> <span class="nav-text">SiamRPN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Some-problems-that-I-thought"><span class="nav-number">1.3.1.</span> <span class="nav-text">Some problems that I thought:</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fenger</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

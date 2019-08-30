@@ -1,277 +1,716 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Note for RPNFor bounding boxes with a scale and ratios  12345import numpy as npscale = 4ratio = 2x = scale * np.sqrt(ratio)y = scale / np.sqrt(ratio)  Anchor generation in SiamMask: In SiamMask, the a">
-<meta property="og:type" content="article">
-<meta property="og:title" content="FengerBlog">
-<meta property="og:url" content="https://num-github.github.io/2019/07/25/Note for RPN/index.html">
-<meta property="og:site_name" content="FengerBlog">
-<meta property="og:description" content="Note for RPNFor bounding boxes with a scale and ratios  12345import numpy as npscale = 4ratio = 2x = scale * np.sqrt(ratio)y = scale / np.sqrt(ratio)  Anchor generation in SiamMask: In SiamMask, the a">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-26T22:06:08.240Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FengerBlog">
-<meta name="twitter:description" content="Note for RPNFor bounding boxes with a scale and ratios  12345import numpy as npscale = 4ratio = 2x = scale * np.sqrt(ratio)y = scale / np.sqrt(ratio)  Anchor generation in SiamMask: In SiamMask, the a">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>FengerBlog</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
-</head>
-
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Inici</a></li>
-         
-          <li><a href="/about/">Qui som</a></li>
-         
-          <li><a href="/archives/">Articles</a></li>
-         
-          <li><a href="/projects_url">Projectes</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2019/07/31/gazebo-and-unity-comparation/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/2019/07/21/Review of SiamMask/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
-      <span id="i-next" class="info" style="display:none;">Post Següent</span>
-      <span id="i-top" class="info" style="display:none;">Adalt</span>
-      <span id="i-share" class="info" style="display:none;">Compartir Post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://num-github.github.io/2019/07/25/Note for RPN/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://num-github.github.io/2019/07/25/Note for RPN/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://num-github.github.io/2019/07/25/Note for RPN/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: https://num-github.github.io/2019/07/25/Note for RPN/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://num-github.github.io/2019/07/25/Note for RPN/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Note-for-RPN"><span class="toc-number">1.</span> <span class="toc-text">Note for RPN</span></a></li></ol>
-    </div>
-  </span>
-</div>
-
-    
-    <div class="content index py4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        
-    </h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">FengerBlog</span>
-      </span>
-      
-    <div class="postdate">
-      
-        <time datetime="2019-07-25T15:38:15.002Z" itemprop="datePublished">2019-07-25</time>
-        
-      
-    </div>
-
-
-      
-
-      
-
-    </div>
-  </header>
   
 
-  <div class="content" itemprop="articleBody">
-    <h4 id="Note-for-RPN"><a href="#Note-for-RPN" class="headerlink" title="Note for RPN"></a>Note for RPN</h4><p>For bounding boxes with a scale and ratios </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">scale = <span class="number">4</span></span><br><span class="line">ratio = <span class="number">2</span></span><br><span class="line">x = scale * np.sqrt(ratio)</span><br><span class="line">y = scale / np.sqrt(ratio)</span><br></pre></td></tr></table></figure>
 
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="FengerBlog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Note for RPNFor bounding boxes with a scale and ratios  12345import numpy as npscale = 4ratio = 2x = scale * np.sqrt(ratio)y = scale / np.sqrt(ratio) Anchor generation in SiamMask: In SiamMask, the an">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Note for RPN">
+<meta property="og:url" content="https://num-github.github.io/2019/07/25/Note for RPN/index.html">
+<meta property="og:site_name" content="FengerBlog">
+<meta property="og:description" content="Note for RPNFor bounding boxes with a scale and ratios  12345import numpy as npscale = 4ratio = 2x = scale * np.sqrt(ratio)y = scale / np.sqrt(ratio) Anchor generation in SiamMask: In SiamMask, the an">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-30T23:03:44.956Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Note for RPN">
+<meta name="twitter:description" content="Note for RPNFor bounding boxes with a scale and ratios  12345import numpy as npscale = 4ratio = 2x = scale * np.sqrt(ratio)y = scale / np.sqrt(ratio) Anchor generation in SiamMask: In SiamMask, the an">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://num-github.github.io/2019/07/25/Note for RPN/">
+
+
+
+
+
+  <title>Note for RPN | FengerBlog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FengerBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">FengerBlog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/07/25/Note for RPN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fenger">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FengerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Note for RPN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-25T16:38:15+01:00">
+                2019-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Note-for-RPN"><a href="#Note-for-RPN" class="headerlink" title="Note for RPN"></a>Note for RPN</h4><p>For bounding boxes with a scale and ratios </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">scale = <span class="number">4</span></span><br><span class="line">ratio = <span class="number">2</span></span><br><span class="line">x = scale * np.sqrt(ratio)</span><br><span class="line">y = scale / np.sqrt(ratio)</span><br></pre></td></tr></table></figure>
 <p>Anchor generation in SiamMask:</p>
 <p>In SiamMask, the anchors was generated in anchors.py, before we goes into the real anchor generation code, let’s firstly have a look about the parameters defined in <strong>init</strong> function</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Anchors</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.stride = <span class="number">8</span></span><br><span class="line">        self.ratios = [<span class="number">0.33</span>, <span class="number">0.5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">        self.scales = [<span class="number">8</span>]</span><br><span class="line">        self.round_dight = <span class="number">0</span></span><br><span class="line">        self.image_center = <span class="number">0</span></span><br><span class="line">        self.size = <span class="number">0</span></span><br><span class="line">        self.anchor_density = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        self.anchor_num = len(self.scales) * len(self.ratios) * (self.anchor_density**<span class="number">2</span>)</span><br><span class="line">        self.anchors = <span class="literal">None</span>  <span class="comment"># in single position (anchor_num*4)</span></span><br><span class="line">        self.all_anchors = <span class="literal">None</span>  <span class="comment"># in all position 2*(4*anchor_num*h*w)</span></span><br><span class="line">        self.generate_anchors()</span><br></pre></td></tr></table></figure>
-
 <p>The true cod from anchor generation is like below. If we put the value above into the code, we can clearly see the process of it which generate anchor with different ratio</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_anchors</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.anchors = np.zeros((self.anchor_num, <span class="number">4</span>), dtype=np.float32)</span><br><span class="line">        size = self.stride * self.stride</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        anchors_offset = self.stride / self.anchor_density <span class="comment">#=8</span></span><br><span class="line">        anchors_offset = np.arange(self.anchor_density)*anchors_offset</span><br><span class="line">        anchors_offset = anchors_offset - np.mean(anchors_offset)</span><br><span class="line"></span><br><span class="line">        x_offsets, y_offsets = np.meshgrid(anchors_offset, anchors_offset)</span><br><span class="line">		<span class="comment">#Thus, only run outer for once </span></span><br><span class="line">        <span class="keyword">for</span> x_offset, y_offset <span class="keyword">in</span> zip(x_offsets.flatten(), y_offsets.flatten()):</span><br><span class="line">            <span class="keyword">for</span> r <span class="keyword">in</span> self.ratios:</span><br><span class="line">                <span class="keyword">if</span> self.round_dight &gt; <span class="number">0</span>:<span class="comment"># not run this if</span></span><br><span class="line">                    ws = round(math.sqrt(size*<span class="number">1.</span> / r), self.round_dight)</span><br><span class="line">                    hs = round(ws * r, self.round_dight)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment">#size = self.stride * self.stride</span></span><br><span class="line">                    ws = int(math.sqrt(size*<span class="number">1.</span> / r))</span><br><span class="line">                    hs = int(ws * r)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> s <span class="keyword">in</span> self.scales:</span><br><span class="line">                    w = ws * s  <span class="comment">#=sqrt(stride * stride* / ratios)*scales</span></span><br><span class="line">                    			<span class="comment">#=stride*scales/sqrt(ratios)</span></span><br><span class="line"></span><br><span class="line">                    h = hs * s	<span class="comment">#=sqrt(stride * stride* ratios)*scales</span></span><br><span class="line">                    			<span class="comment">#=stride*scales*sqrt(ratios)</span></span><br><span class="line">                    self.anchors[count][:] = [-w*<span class="number">0.5</span>+x_offset, -h*<span class="number">0.5</span>+y_offset, w*<span class="number">0.5</span>+x_offset, h*<span class="number">0.5</span>+y_offset][:]</span><br><span class="line">             <span class="comment">#array([[-52., -16.,  52.,  16.],</span></span><br><span class="line">       				<span class="comment">#[-44., -20.,  44.,  20.],</span></span><br><span class="line">       				<span class="comment">#[-32., -32.,  32.,  32.],</span></span><br><span class="line">       				<span class="comment">#[-20., -40.,  20.,  40.],</span></span><br><span class="line">       				<span class="comment">#[-16., -48.,  16.,  48.]], dtype=float32) </span></span><br><span class="line">             <span class="comment"># This is the offset for the four points of an anchor related to center points.</span></span><br><span class="line">                    count += <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
 <p>In data preparation stage, function generate_all_anchors has also be called</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">self.anchors.generate_all_anchors(im_c=self.search_size//<span class="number">2</span>, size=self.size)</span><br><span class="line">						<span class="comment">#search_size is the length and height of search image</span></span><br><span class="line">    					<span class="comment">#search_size//2 is the center of the image</span></span><br><span class="line">    					<span class="comment">#size is the length and height of a feature map</span></span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_all_anchors</span><span class="params">(self, im_c, size)</span>:</span></span><br><span class="line">    <span class="comment">#suppose search_size = 255 im_c=255//2</span></span><br><span class="line">    <span class="comment">#suppose size = 17, the parameter comes from your config.json file which represent the size of feature map  </span></span><br><span class="line">        <span class="keyword">if</span> self.image_center == im_c <span class="keyword">and</span> self.size == size:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        self.image_center = im_c</span><br><span class="line">        self.size = size</span><br><span class="line">        <span class="comment">#a0x = 63=255//2-17//2*8</span></span><br><span class="line">        a0x = im_c - size // <span class="number">2</span> * self.stride<span class="comment">#The center point of the first anchor</span></span><br><span class="line">        ori = np.array([a0x] * <span class="number">4</span>, dtype=np.float32)</span><br><span class="line">        <span class="comment">#ori = array([63., 63., 63., 63.], dtype=float32)</span></span><br><span class="line">        zero_anchors = self.anchors + ori<span class="comment">#The anchor points for the four point </span></span><br><span class="line">		<span class="comment">#ori +self.anchors: array([[-52., -16.,  52.,  16.],</span></span><br><span class="line">                    <span class="comment">#        [-44., -20.,  44.,  20.],</span></span><br><span class="line">                    <span class="comment">#        [-32., -32.,  32.,  32.],</span></span><br><span class="line">                    <span class="comment">#        [-20., -40.,  20.,  40.],</span></span><br><span class="line">                    <span class="comment">#        [-16., -48.,  16.,  48.]], dtype=float32)</span></span><br><span class="line">        <span class="comment">#X1,y1,x2    ,y2  correspond to the value in the second dimension</span></span><br><span class="line">        <span class="comment">#          X1 ,  y1    ,x2    ,y2 </span></span><br><span class="line">        <span class="comment">#=array([[ 11.,  47., 115.,  79.],</span></span><br><span class="line">        <span class="comment">#       [ 19.,  43., 107.,  83.],</span></span><br><span class="line">        <span class="comment">#       [ 31.,  31.,  95.,  95.],</span></span><br><span class="line">        <span class="comment">#       [ 43.,  23.,  83., 103.],</span></span><br><span class="line">        <span class="comment">#       [ 47.,  15.,  79., 111.]], dtype=float32)</span></span><br><span class="line">        x1 = zero_anchors[:, <span class="number">0</span>]</span><br><span class="line">        y1 = zero_anchors[:, <span class="number">1</span>]</span><br><span class="line">        x2 = zero_anchors[:, <span class="number">2</span>]</span><br><span class="line">        y2 = zero_anchors[:, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment">#Add two more dimension to x1, y1, x2, y2 </span></span><br><span class="line">        <span class="comment">#x1=array([[[11.]],</span></span><br><span class="line">        <span class="comment">#[[19.]],</span></span><br><span class="line">        <span class="comment">#[[31.]],</span></span><br><span class="line">        <span class="comment">#[[43.]],</span></span><br><span class="line">        <span class="comment">#[[47.]]], dtype=float32)   .....</span></span><br><span class="line">        x1, y1, x2, y2 = map(<span class="keyword">lambda</span> x: x.reshape(self.anchor_num, <span class="number">1</span>, <span class="number">1</span>), [x1, y1, x2, y2])</span><br><span class="line">        cx, cy, w, h = corner2center([x1, y1, x2, y2])</span><br><span class="line">        <span class="comment">#e.g.</span></span><br><span class="line">        <span class="comment">#cx=array([[[63.]],                h=array([[[32.]],</span></span><br><span class="line">        <span class="comment">#[[63.]],							    [[40.]],</span></span><br><span class="line">        <span class="comment">#[[63.]],								[[64.]],</span></span><br><span class="line">        <span class="comment">#[[63.]], 								[[80.]],</span></span><br><span class="line">        <span class="comment">#[[63.]]], dtype=float32)				[[96.]]], dtype=float32))</span></span><br><span class="line">		</span><br><span class="line">        <span class="comment">#size = 17</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#The ofset of each bounding boxes with respect to each </span></span><br><span class="line">        disp_x = np.arange(<span class="number">0</span>, size).reshape(<span class="number">1</span>, <span class="number">1</span>, <span class="number">-1</span>) * self.stride</span><br><span class="line">        disp_y = np.arange(<span class="number">0</span>, size).reshape(<span class="number">1</span>, <span class="number">-1</span>, <span class="number">1</span>) * self.stride</span><br><span class="line"><span class="comment">#disp_x=array([[[  0,   8,  16,  24,  32,  40,  48,  56,  64,  72,  80,  88,96, 104, 112, 120, 128]]])</span></span><br><span class="line"><span class="comment">#disp_y=array([[[  0], [  8], [ 16], [ 24], [ 32],  [ 40],[ 48], [ 56], [ 64],[ 72], [ 80],[ 88],[ 96],[104],[112], [120],[128]]])</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#cx.shape=(5, 1, 1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Calculate the final location of each center points cx: x axis value</span></span><br><span class="line">												<span class="comment">#	cy: y axis value</span></span><br><span class="line">        cx = cx + disp_x</span><br><span class="line"> </span><br><span class="line"><span class="comment">#cx=array([[[ 63.,  71.,  79.,  87.,  95., 103., 111., 119., 127., 135.,143., 151., 159., 167., 175., 183., 191.]],</span></span><br><span class="line"><span class="comment"># [[ 63.,  71.,  79.,  87.,  95., 103., 111., 119., 127., 135., 143., 151., 159., 167., 175., 183., 191.]],</span></span><br><span class="line"><span class="comment">#[[ 63.,  71.,  79.,  87.,  95., 103., 111., 119., 127., 135.,143., 151., 159., 167., 175., 183., 191.]],</span></span><br><span class="line"><span class="comment"># [[ 63.,  71.,  79.,  87.,  95., 103., 111., 119., 127., 135.,  143., 151., 159., 167., 175., 183., 191.]],</span></span><br><span class="line"><span class="comment"># [[ 63.,  71.,  79.,  87.,  95., 103., 111., 119., 127., 135.,  143., 151., 159., 167., 175., 183., 191.]]])</span></span><br><span class="line"> </span><br><span class="line">        cy = cy + disp_y</span><br><span class="line"></span><br><span class="line">        <span class="comment"># broadcast</span></span><br><span class="line">        <span class="comment">#(5, 17, 17)</span></span><br><span class="line">        zero = np.zeros((self.anchor_num, size, size), dtype=np.float32)</span><br><span class="line">        <span class="comment">#convert cx from (17,17) to (5, 17, 17)</span></span><br><span class="line">        cx, cy, w, h = map(<span class="keyword">lambda</span> x: x + zero, [cx, cy, w, h])</span><br><span class="line">        x1, y1, x2, y2 = center2corner([cx, cy, w, h])</span><br><span class="line">		<span class="comment">#			(4, 5, 17, 17)</span></span><br><span class="line">        self.all_anchors = np.stack([x1, y1, x2, y2]), np.stack([cx, cy, w, h])</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 
+      
+    </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/Investigation-for-Reinforcement-Learning-in-robotic/" rel="next" title="Investigation for Reinforcement Learning (RL) in robotic">
+                <i class="fa fa-chevron-left"></i> Investigation for Reinforcement Learning (RL) in robotic
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/31/gazebo-and-unity-comparation/" rel="prev" title="gazebo and unity comparation">
+                gazebo and unity comparation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
-</article>
+  
+  
+  
+  </article>
 
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fenger</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Note-for-RPN"><span class="nav-number">1.</span> <span class="nav-text">Note for RPN</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
 
 
         
-          <div id="footer-post-container">
-  <div id="footer-post">
+      </div>
+    </main>
 
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Inici</a></li>
-         
-          <li><a href="/about/">Qui som</a></li>
-         
-          <li><a href="/archives/">Articles</a></li>
-         
-          <li><a href="/projects_url">Projectes</a></li>
-        
-      </ul>
-    </div>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fenger</span>
 
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Note-for-RPN"><span class="toc-number">1.</span> <span class="toc-text">Note for RPN</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://num-github.github.io/2019/07/25/Note for RPN/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://num-github.github.io/2019/07/25/Note for RPN/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://num-github.github.io/2019/07/25/Note for RPN/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: https://num-github.github.io/2019/07/25/Note for RPN/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://num-github.github.io/2019/07/25/Note for RPN/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://num-github.github.io/2019/07/25/Note for RPN/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menú</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartir</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Cap amunt</a>
-    </div>
-
-  </div>
+  
 </div>
 
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
         
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 Fenger
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Inici</a></li>
-         
-          <li><a href="/about/">Qui som</a></li>
-         
-          <li><a href="/archives/">Articles</a></li>
-         
-          <li><a href="/projects_url">Projectes</a></li>
+
+
+
+
+
+
+
         
-      </ul>
-    </nav>
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
-</footer>
 
-    </div>
-    <!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+  
 
-    <!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<!-- clipboard -->
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
 
-  <script src="/lib/clipboard/clipboard.min.js"></script>
-  <script type="text/javascript">
-  $(function() {
-    // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
-    btn += '<i class="far fa-clone"></i>';
-    btn += '</span>'; 
-    // mount it!
-    $(".highlight .code pre").before(btn);
-    var clip = new ClipboardJS('.btn-copy', {
-      target: function(trigger) {
-        return trigger.nextElementSibling;
-      }
-    });
-    clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "Copied!");
-      e.clearSelection();
-    })
-  })
-  </script>
 
-<script src="/js/main.js"></script>
-<!-- search -->
 
-<!-- Google Analytics -->
 
-<!-- Baidu Analytics -->
 
-<!-- Disqus Comments -->
 
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
 
 </body>
 </html>
