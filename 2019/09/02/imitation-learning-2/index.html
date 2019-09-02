@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="FengerBlog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="This note is partially based on Artificial Intelligence Imitation Learning - Tutorial - 2018 ICML One shot imitation learning &amp;amp; meta learningOne shot imitation learningOne shot imitation learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="imitation learning 2">
+<meta property="og:url" content="https://num-github.github.io/2019/09/02/imitation-learning-2/index.html">
+<meta property="og:site_name" content="FengerBlog">
+<meta property="og:description" content="This note is partially based on Artificial Intelligence Imitation Learning - Tutorial - 2018 ICML One shot imitation learning &amp;amp; meta learningOne shot imitation learningOne shot imitation learning">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://num-github.github.io/2019/09/02/imitation-learning-2/blog/source/_posts/1567373211918.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/02/imitation-learning-2/blog/source/_posts/1567376280730.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/02/imitation-learning-2/blog/source/_posts/1567379267649.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/02/imitation-learning-2/blog/source/_posts/1567434686062.png">
+<meta property="og:updated_time" content="2019-09-02T17:09:31.175Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="imitation learning 2">
+<meta name="twitter:description" content="This note is partially based on Artificial Intelligence Imitation Learning - Tutorial - 2018 ICML One shot imitation learning &amp;amp; meta learningOne shot imitation learningOne shot imitation learning">
+<meta name="twitter:image" content="https://num-github.github.io/2019/09/02/imitation-learning-2/blog/source/_posts/1567373211918.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://num-github.github.io/2019/09/02/imitation-learning-2/">
+
+
+
+
+
+  <title>imitation learning 2 | FengerBlog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FengerBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">FengerBlog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/09/02/imitation-learning-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fenger">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FengerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">imitation learning 2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-02T18:06:06+01:00">
+                2019-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>This note is partially based on <a href="https://www.youtube.com/watch?v=6rZTaboSY4k&amp;feature=youtu.be" target="_blank" rel="noopener">Artificial Intelligence Imitation Learning - Tutorial - 2018 ICML</a></em></p>
+<h2 id="One-shot-imitation-learning-amp-meta-learning"><a href="#One-shot-imitation-learning-amp-meta-learning" class="headerlink" title="One shot imitation learning &amp; meta learning"></a>One shot imitation learning &amp; meta learning</h2><h3 id="One-shot-imitation-learning"><a href="#One-shot-imitation-learning" class="headerlink" title="One shot imitation learning"></a>One shot imitation learning</h3><p>One shot imitation learning can be used to achieve a quicker way to make robot learning similar task (e.g. stack three blocks, 5 blocks or stack different number of blocks in different places). </p>
+<p>The idea of this is to pull together a distribution of tasks and then train a neural network policy so the policy can generalize from a single demonstration of a previously unseen task. </p>
+<p>The way that training takes place is during training, we have multiple pairs of demonstrations from expert of two different instances of the same tasks. The neural network will be trained on the first trajectory so as to output the corresponding expert actions of the second trajectory and the second demonstrations will be treated as validation trajectory. Then, at test time, we only have one demonstration of the new task and facing a different instance of the same task we simply roll out the policy that we learned. </p>
+<p>In this one shot imitation learning is still very similar to the imitation learning discussed  before.</p>
+<h3 id="Meta-learning"><a href="#Meta-learning" class="headerlink" title="Meta learning"></a>Meta learning</h3><p>Key ideas: Viewing multiple policy for related tasks as sharing a common initialization parameters θ, which is the policy parameters, and the goal is to quickly obtained θ with few gradient decent with task specified loss for new task that have limited number of demonstrations from another trained meta objective θ. </p>
+<p>The training process for this can be described as below </p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567373211918.png" alt="1567373211918"> </p>
+<p>In this case, two separate loss and rules was developed for training. Firstly, we sample a set of demonstration for some tasks and then use one demonstration and the meta objective θ to train (fast adaptation to) specific policy θ<sub>i</sub>. This process can be viewed as a way for quickly find the task-specific policy, Then, train the meta-objective θ to update meta policy with new policy and task specific policy.</p>
+<h4 id="interesting-topic-one-shot-imitation-from-watching-videos"><a href="#interesting-topic-one-shot-imitation-from-watching-videos" class="headerlink" title="interesting topic: one shot imitation from watching videos."></a>interesting topic: one shot imitation from watching videos.</h4><p>One interesting topic for applying meta-learning is to make a robot learn to finish a task with human demonstration. </p>
+<p>Paper: <a href="https://arxiv.org/pdf/1802.01557.pdf" target="_blank" rel="noopener">One-Shot Imitation from Observing Humans via Domain-Adaptive Meta-Learning</a></p>
+<h2 id="Muti-Agent-Multi-Modal-Imitation-learning"><a href="#Muti-Agent-Multi-Modal-Imitation-learning" class="headerlink" title="Muti-Agent / Multi-Modal Imitation learning"></a>Muti-Agent / Multi-Modal Imitation learning</h2><h3 id="Coordinated-Multi-Agent-Imitation-Learning"><a href="#Coordinated-Multi-Agent-Imitation-Learning" class="headerlink" title="Coordinated Multi-Agent Imitation Learning"></a>Coordinated Multi-Agent Imitation Learning</h3><p>If we want to lift imitation learnings from single agent to multi-agent setting, one of the prosperities that we usually  take for granted using black box methods is the neural net or decision tree will be able to take a state representations that has already has  a right ordering (e.g. embedding). However, it is very hard for this task to have consistent input representation. </p>
+<p>To solve this problem, one proposed method is to combine imitation learning with unsupervised graphical model learning and inference together, so in this case, the graphical model encodes the latent raw information. During training, we alternatively optimize the policy and graphical model. </p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567376280730.png" alt="1567376280730"></p>
+<p>In this training process, if we fix the graphical model parameters, the model can be viewed as an encoding of latent raw information and then we can apply imitation learning method to train our policy. Then if we fix our policy, we can use the policy to fine tune the graphical model.  Each optimization can be done in loop or in a mini batch.</p>
+<h3 id="InforGAIL"><a href="#InforGAIL" class="headerlink" title="InforGAIL"></a><a href="https://arxiv.org/pdf/1703.08840.pdf" target="_blank" rel="noopener">InforGAIL</a></h3><p>Traditional GAIL tend to have trouble telling apart different modality from the data.</p>
+<p>InforGAIL is to augment the original GAIL objective with additional regularization by trying to essentially maximize the mutual information between latent variable and state action pair that is generated by the policy. Even though this mutual information quantity is intractable,  it can be approximated. In addition, the training goal is replaced by Wasserstein GAN(WGAN) to remedy the mode collapsing problem. The result for InforGAIL now is the model is able to differentiate distinctly between the two actions. </p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567379267649.png" alt="1567379267649"></p>
+<p>For example, the image above show some actions for trained policy, which is trained on automatic drive task with 2 actions (turning left, Z=0, or right,Z=1) . Also, this training method can also make the model to generate different behaviour which is not seen during training (e.g. Z=0.5).  </p>
+<h5 id="InforGAN"><a href="#InforGAN" class="headerlink" title="InforGAN"></a><a href="https://papers.nips.cc/paper/6399-infogan-interpretable-representation-learning-by-information-maximizing-generative-adversarial-nets.pdf" target="_blank" rel="noopener">InforGAN</a></h5><p>To illustrate how inforGAIL achieved that goal, let’s look at how inforGAN work. </p>
+<p>GAN neural network are able to output some data for an given random input. However, it is often the case that if we modify one of the dimension of input, we cannot very clearly see what the output will change. InfoGAIL aims to solve this problem. </p>
+<p>The process of InfoGAN is shown as below</p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567434686062.png" alt="1567434686062"></p>
+<p>The elements in red box shows the traditional GAN process, but the difference is the input vector is separate into two parts, z’ and c. In this case, the vector c aim to provide relevant information that can  clearly change certain features of output or you can view it as feature vector of input. In this process, after the generator output a vector,X. X will input to an encoder so as to predict feature vector c. If this process is succeed, then c will control certain features of x. The black box here is very similar to an auto-encoder, but if the discriminator do not exist, the neural will directly put vector c into  output images instead of generating real images.</p>
+<p>In InfoGAIL, similar to GAIL, the inputs and output images was replaced by state and actions. </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/12/imitation-learning-md/" rel="next" title="imitation learning">
+                <i class="fa fa-chevron-left"></i> imitation learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fenger</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#One-shot-imitation-learning-amp-meta-learning"><span class="nav-number">1.</span> <span class="nav-text">One shot imitation learning &amp; meta learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#One-shot-imitation-learning"><span class="nav-number">1.1.</span> <span class="nav-text">One shot imitation learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Meta-learning"><span class="nav-number">1.2.</span> <span class="nav-text">Meta learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#interesting-topic-one-shot-imitation-from-watching-videos"><span class="nav-number">1.2.1.</span> <span class="nav-text">interesting topic: one shot imitation from watching videos.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Muti-Agent-Multi-Modal-Imitation-learning"><span class="nav-number">2.</span> <span class="nav-text">Muti-Agent / Multi-Modal Imitation learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Coordinated-Multi-Agent-Imitation-Learning"><span class="nav-number">2.1.</span> <span class="nav-text">Coordinated Multi-Agent Imitation Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InforGAIL"><span class="nav-number">2.2.</span> <span class="nav-text">InforGAIL</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#InforGAN"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">InforGAN</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fenger</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

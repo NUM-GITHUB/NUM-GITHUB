@@ -231,6 +231,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/09/02/imitation-learning-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fenger">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FengerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/02/imitation-learning-2/" itemprop="url">imitation learning 2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-02T18:06:06+01:00">
+                2019-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><em>This note is partially based on <a href="https://www.youtube.com/watch?v=6rZTaboSY4k&amp;feature=youtu.be" target="_blank" rel="noopener">Artificial Intelligence Imitation Learning - Tutorial - 2018 ICML</a></em></p>
+<h2 id="One-shot-imitation-learning-amp-meta-learning"><a href="#One-shot-imitation-learning-amp-meta-learning" class="headerlink" title="One shot imitation learning &amp; meta learning"></a>One shot imitation learning &amp; meta learning</h2><h3 id="One-shot-imitation-learning"><a href="#One-shot-imitation-learning" class="headerlink" title="One shot imitation learning"></a>One shot imitation learning</h3><p>One shot imitation learning can be used to achieve a quicker way to make robot learning similar task (e.g. stack three blocks, 5 blocks or stack different number of blocks in different places). </p>
+<p>The idea of this is to pull together a distribution of tasks and then train a neural network policy so the policy can generalize from a single demonstration of a previously unseen task. </p>
+<p>The way that training takes place is during training, we have multiple pairs of demonstrations from expert of two different instances of the same tasks. The neural network will be trained on the first trajectory so as to output the corresponding expert actions of the second trajectory and the second demonstrations will be treated as validation trajectory. Then, at test time, we only have one demonstration of the new task and facing a different instance of the same task we simply roll out the policy that we learned. </p>
+<p>In this one shot imitation learning is still very similar to the imitation learning discussed  before.</p>
+<h3 id="Meta-learning"><a href="#Meta-learning" class="headerlink" title="Meta learning"></a>Meta learning</h3><p>Key ideas: Viewing multiple policy for related tasks as sharing a common initialization parameters θ, which is the policy parameters, and the goal is to quickly obtained θ with few gradient decent with task specified loss for new task that have limited number of demonstrations from another trained meta objective θ. </p>
+<p>The training process for this can be described as below </p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567373211918.png" alt="1567373211918"> </p>
+<p>In this case, two separate loss and rules was developed for training. Firstly, we sample a set of demonstration for some tasks and then use one demonstration and the meta objective θ to train (fast adaptation to) specific policy θ<sub>i</sub>. This process can be viewed as a way for quickly find the task-specific policy, Then, train the meta-objective θ to update meta policy with new policy and task specific policy.</p>
+<h4 id="interesting-topic-one-shot-imitation-from-watching-videos"><a href="#interesting-topic-one-shot-imitation-from-watching-videos" class="headerlink" title="interesting topic: one shot imitation from watching videos."></a>interesting topic: one shot imitation from watching videos.</h4><p>One interesting topic for applying meta-learning is to make a robot learn to finish a task with human demonstration. </p>
+<p>Paper: <a href="https://arxiv.org/pdf/1802.01557.pdf" target="_blank" rel="noopener">One-Shot Imitation from Observing Humans via Domain-Adaptive Meta-Learning</a></p>
+<h2 id="Muti-Agent-Multi-Modal-Imitation-learning"><a href="#Muti-Agent-Multi-Modal-Imitation-learning" class="headerlink" title="Muti-Agent / Multi-Modal Imitation learning"></a>Muti-Agent / Multi-Modal Imitation learning</h2><h3 id="Coordinated-Multi-Agent-Imitation-Learning"><a href="#Coordinated-Multi-Agent-Imitation-Learning" class="headerlink" title="Coordinated Multi-Agent Imitation Learning"></a>Coordinated Multi-Agent Imitation Learning</h3><p>If we want to lift imitation learnings from single agent to multi-agent setting, one of the prosperities that we usually  take for granted using black box methods is the neural net or decision tree will be able to take a state representations that has already has  a right ordering (e.g. embedding). However, it is very hard for this task to have consistent input representation. </p>
+<p>To solve this problem, one proposed method is to combine imitation learning with unsupervised graphical model learning and inference together, so in this case, the graphical model encodes the latent raw information. During training, we alternatively optimize the policy and graphical model. </p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567376280730.png" alt="1567376280730"></p>
+<p>In this training process, if we fix the graphical model parameters, the model can be viewed as an encoding of latent raw information and then we can apply imitation learning method to train our policy. Then if we fix our policy, we can use the policy to fine tune the graphical model.  Each optimization can be done in loop or in a mini batch.</p>
+<h3 id="InforGAIL"><a href="#InforGAIL" class="headerlink" title="InforGAIL"></a><a href="https://arxiv.org/pdf/1703.08840.pdf" target="_blank" rel="noopener">InforGAIL</a></h3><p>Traditional GAIL tend to have trouble telling apart different modality from the data.</p>
+<p>InforGAIL is to augment the original GAIL objective with additional regularization by trying to essentially maximize the mutual information between latent variable and state action pair that is generated by the policy. Even though this mutual information quantity is intractable,  it can be approximated. In addition, the training goal is replaced by Wasserstein GAN(WGAN) to remedy the mode collapsing problem. The result for InforGAIL now is the model is able to differentiate distinctly between the two actions. </p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567379267649.png" alt="1567379267649"></p>
+<p>For example, the image above show some actions for trained policy, which is trained on automatic drive task with 2 actions (turning left, Z=0, or right,Z=1) . Also, this training method can also make the model to generate different behaviour which is not seen during training (e.g. Z=0.5).  </p>
+<h5 id="InforGAN"><a href="#InforGAN" class="headerlink" title="InforGAN"></a><a href="https://papers.nips.cc/paper/6399-infogan-interpretable-representation-learning-by-information-maximizing-generative-adversarial-nets.pdf" target="_blank" rel="noopener">InforGAN</a></h5><p>To illustrate how inforGAIL achieved that goal, let’s look at how inforGAN work. </p>
+<p>GAN neural network are able to output some data for an given random input. However, it is often the case that if we modify one of the dimension of input, we cannot very clearly see what the output will change. InfoGAIL aims to solve this problem. </p>
+<p>The process of InfoGAN is shown as below</p>
+<p><img src="/2019/09/02/imitation-learning-2/blog/source/_posts/1567434686062.png" alt="1567434686062"></p>
+<p>The elements in red box shows the traditional GAN process, but the difference is the input vector is separate into two parts, z’ and c. In this case, the vector c aim to provide relevant information that can  clearly change certain features of output or you can view it as feature vector of input. In this process, after the generator output a vector,X. X will input to an encoder so as to predict feature vector c. If this process is succeed, then c will control certain features of x. The black box here is very similar to an auto-encoder, but if the discriminator do not exist, the neural will directly put vector c into  output images instead of generating real images.</p>
+<p>In InfoGAIL, similar to GAIL, the inputs and output images was replaced by state and actions. </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/08/12/imitation-learning-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1614,7 +1758,7 @@ You can also plot many figures in this way
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
