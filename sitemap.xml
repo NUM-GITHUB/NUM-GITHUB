@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://num-github.github.io/2019/09/02/imitation-learning-2/</loc>
+    
+    <lastmod>2019-09-02T17:06:06.792Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://num-github.github.io/2019/06/30/Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux/</loc>
     
     <lastmod>2019-08-30T23:08:17.451Z</lastmod>
