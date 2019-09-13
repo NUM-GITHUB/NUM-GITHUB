@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="FengerBlog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Note for attentionThis note is based on the content in Dive into deep learning  and berkeley-stat-157. General AttentionIn this , an attention layer can be viewed as a mechanism that explicitly select">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Note for attention">
+<meta property="og:url" content="https://num-github.github.io/2019/09/12/Note-for-attention/index.html">
+<meta property="og:site_name" content="FengerBlog">
+<meta property="og:description" content="Note for attentionThis note is based on the content in Dive into deep learning  and berkeley-stat-157. General AttentionIn this , an attention layer can be viewed as a mechanism that explicitly select">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568324529492.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568406560755.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568407547472.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568407960639.png">
+<meta property="og:updated_time" content="2019-09-13T21:33:52.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Note for attention">
+<meta name="twitter:description" content="Note for attentionThis note is based on the content in Dive into deep learning  and berkeley-stat-157. General AttentionIn this , an attention layer can be viewed as a mechanism that explicitly select">
+<meta name="twitter:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568324529492.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://num-github.github.io/2019/09/12/Note-for-attention/">
+
+
+
+
+
+  <title>Note for attention | FengerBlog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FengerBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">FengerBlog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/09/12/Note-for-attention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fenger">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FengerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Note for attention</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-12T21:36:58+01:00">
+                2019-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Note-for-attention"><a href="#Note-for-attention" class="headerlink" title="Note for attention"></a>Note for attention</h1><p><em>This note is based on the content in <a href="https://d2l.ai/" target="_blank" rel="noopener">Dive into deep learning </a> and <a href="https://courses.d2l.ai/berkeley-stat-157/units/attention.html" target="_blank" rel="noopener">berkeley-stat-157</a></em>.</p>
+<h4 id="General-Attention"><a href="#General-Attention" class="headerlink" title="General Attention"></a>General Attention</h4><p>In this , an attention layer can be viewed as a mechanism that explicitly select related information. The basic thinking of attention layer can be shown as below.</p>
+<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568324529492.png" alt="1568324529492"></p>
+<p>It contain a very special input that can be viewed as memory consists of values and correspond keys as mentioned before. The normal input for this layer is query and we hope to find the keys that is similar to query and return its value as the output. </p>
+<p>In mathematical form, suppose we get a query q and the memory (k<sub>1</sub>, v<sub>1</sub>) …… (k<sub>n</sub>, v<sub>n</sub>) </p>
+<p>In this case, we can not simply ‘find the most similar’ keys, because this process is very hard to compute gradient, but it can be achieved in the following way. </p>
+<p>Firstly we compute the similarity score a<sub>1</sub>, …, a<sub>n</sub> between q and each k<sub>i</sub> with a<sub>i</sub> =a(q, k<sub>i</sub>)</p>
+<p>Then, use a softmax function to scale the score range into 0-1.</p>
+<script type="math/tex; mode=display">
+b_1,..., b_n =softmax(a_1,...,a_n)</script><p>Then use these scaled score to approximate the values, which is a weighted sum of values</p>
+<script type="math/tex; mode=display">
+o=\sum_{i=1}^{n}b_iv_i</script><p> In the first stage, we use a function a to measure the similarity score. One of the way to achieve that is to use inner product which can be viewed as a measurement between two vectors with the same length. The mathematical expression is shown as below, where Q and K are d dimensional vector and d is the dimension. The reason for dividing square root of d is to make this value not very large.  </p>
+<script type="math/tex; mode=display">
+a(Q,K)=\frac{QK^T}{\sqrt{d}}</script><p>For the cases when q and k have different length, we can use two learnable parameters and sum method to do that. The mathematical expression for this method was shown below, where W<sub>k</sub> ∈R<sup>h×d<sub>k</sub></sup> , W<sub>q</sub> ∈R<sup>h×d<sub>q</sub></sup>. In this case, both k and q are projected into a h dimensional vector and after tanh, it will inner product to a vector to get a scalar. </p>
+<script type="math/tex; mode=display">
+a(k,q)=v^T tanh( W_kk+W_qq)</script><p>This expression is equals to concatenate the key and query, and then feed into a single hidden-layer perception with hidden size ℎ and output size 1, so we also call it Multilayer Perception Attention.</p>
+<h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h4><p>Traditionally, if we want to process sequential data, we need to combine RNN with attention, but if we purely use attention, it is still possible, which is also what transformer achieved. The architecture of transformer is shown as below </p>
+<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568406560755.png" alt="1568406560755"></p>
+<p>Basically, this is a attention version of encoder-decoder network. If you want to do a translation task some texts, the text would be the input of encoder which is the left part of transfer. Then, the encoder will encode the text (state) and output to the second Multi-head attention layer on right and this layer will use the information from the state and information from decoder input (e.g. the first few output from the decoder or the beginning signal of a sentence) to output the next word. The grey blocks of this can be repeated many times so as to construct very deep architecture.  </p>
+<p>There are mainly 4 new elements for transformer. The first one is  <strong>positional encoding</strong>. This encoding is directly added to input embedded and aims to solve the problem that the transformer haven’t contain any sequential or time related information. Position encoding can be achieved as below:</p>
+<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568407547472.png" alt="1568407547472"></p>
+<p>The second element for this is <strong>Multi-head attention</strong>. This multi-head attention aims to combine the information from different type of attention with trainable parameters for each attention, because different attention may extract different information. </p>
+<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568407960639.png" alt="1568407960639"></p>
+<p>The mathematical expression can shown as below</p>
+<p>Each attention head that contain trainable parameters W<sup>Q</sup>, W<sup>K</sup>, W<sup>V</sup>.</p>
+<script type="math/tex; mode=display">
+head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)</script><p>Then combine these information with concatenation and new learnable parameter W<sup>o</sup>.</p>
+<script type="math/tex; mode=display">
+MultiHead(Q,K,V)=Concat(head_1,...head_n)W^O</script><p>Note that in encoder (left) multi-head attention part and the first (lower) decoder multi-head attention, the value of query, keys and values are all equals to each other, but for  the upper decoder multi-head attention, only keys and values are equals to each other and query comes from the output of the decoder. </p>
+<p><strong>Add &amp; norm</strong> here is a residual neural network with layer normalization (not batch normalization )</p>
+<p><strong>Position-wise Feed-Forward Networks(FFN)</strong> is a two layer network for output.</p>
+<h4 id="From-pooling-point-of-view"><a href="#From-pooling-point-of-view" class="headerlink" title="From pooling point of view"></a>From pooling point of view</h4><p>One of the view for attention is it can be viewed as a learnable weighted pooling method. In convolutional neural network, there is max pooling or average pooling, but if don’t use these two direct method and hope the network to learn which part is more important and add more weight to this part, we can use attention mechanism for pooling.  </p>
+<p>The comparation between these three pooling method in mathematical expression is show below, where v is input value:</p>
+<p>Max pooling:</p>
+<script type="math/tex; mode=display">
+max(v_i)</script><p>Average pooling:</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n\frac{1}{n}v_i</script><p>Attention pooling:</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^na(k_i,q)v_i</script><p>As you can see here, function a is the weight for each value v<sub>i</sub>, which is based on key and query items.</p>
+<p>If you use the output from one attention layer as input to anther attention layer, that is called <a href="http://www.cs.cmu.edu/~./hovy/papers/16HLT-hierarchical-attention-networks.pdf" target="_blank" rel="noopener"><strong>hierarchical attention</strong></a>, which can be defined as below:</p>
+<script type="math/tex; mode=display">
+v_i^{t+1}=\sum_{i=1}^na^{t}(k_i^{t},q^{t})v_i^{t}\,\,\,\,  (v_i^{(0)}=v_i)</script><p>This type of attention layer can achieve a more specific attention. For example, the first attention layer can be pay more attention to part of sentence and the next layer can pay more attention to the words in this part. </p>
+<p>You can also update query value each time to achieve recurrent attention</p>
+<script type="math/tex; mode=display">
+q^{t+1}=\sum_{i=1}^na^{t}(k_i^{t},q^{t})v_i^{t}</script><p>In addition, you can also output a value with query in recurrent attention and input it to attention layer. </p>
+<script type="math/tex; mode=display">
+q^{t+1}=\sum_{i=1}^na^{t}(k_i^{t},q^{t}, y^t)v_i^{t}\,\,\,\, y^{(t+1)}=f(q^{t+1})</script>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/02/imitation-learning-2/" rel="next" title="One shot imitation learning & meta learning and Muti-Agent / Multi-Modal Imitation learning">
+                <i class="fa fa-chevron-left"></i> One shot imitation learning & meta learning and Muti-Agent / Multi-Modal Imitation learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fenger</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-for-attention"><span class="nav-number">1.</span> <span class="nav-text">Note for attention</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#General-Attention"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">General Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transformer"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">Transformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From-pooling-point-of-view"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">From pooling point of view</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fenger</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
