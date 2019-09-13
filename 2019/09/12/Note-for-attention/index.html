@@ -90,15 +90,15 @@
 <meta property="og:site_name" content="FengerBlog">
 <meta property="og:description" content="Note for attentionThis note is based on the content in Dive into deep learning  and berkeley-stat-157. General AttentionIn this , an attention layer can be viewed as a mechanism that explicitly select">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568324529492.png">
-<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568406560755.png">
-<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568407547472.png">
-<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568407960639.png">
-<meta property="og:updated_time" content="2019-09-13T21:33:52.535Z">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/1568324529492.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/1568406560755.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/1568407547472.png">
+<meta property="og:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/1568407960639.png">
+<meta property="og:updated_time" content="2019-09-13T21:37:12.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Note for attention">
 <meta name="twitter:description" content="Note for attentionThis note is based on the content in Dive into deep learning  and berkeley-stat-157. General AttentionIn this , an attention layer can be viewed as a mechanism that explicitly select">
-<meta name="twitter:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/Users/a/AppData/Roaming/Typora/typora-user-images/1568324529492.png">
+<meta name="twitter:image" content="https://num-github.github.io/2019/09/12/Note-for-attention/1568324529492.png">
 
 
 
@@ -310,7 +310,7 @@
       
         <h1 id="Note-for-attention"><a href="#Note-for-attention" class="headerlink" title="Note for attention"></a>Note for attention</h1><p><em>This note is based on the content in <a href="https://d2l.ai/" target="_blank" rel="noopener">Dive into deep learning </a> and <a href="https://courses.d2l.ai/berkeley-stat-157/units/attention.html" target="_blank" rel="noopener">berkeley-stat-157</a></em>.</p>
 <h4 id="General-Attention"><a href="#General-Attention" class="headerlink" title="General Attention"></a>General Attention</h4><p>In this , an attention layer can be viewed as a mechanism that explicitly select related information. The basic thinking of attention layer can be shown as below.</p>
-<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568324529492.png" alt="1568324529492"></p>
+<p><img src="/2019/09/12/Note-for-attention/1568324529492.png" alt="1568324529492"></p>
 <p>It contain a very special input that can be viewed as memory consists of values and correspond keys as mentioned before. The normal input for this layer is query and we hope to find the keys that is similar to query and return its value as the output. </p>
 <p>In mathematical form, suppose we get a query q and the memory (k<sub>1</sub>, v<sub>1</sub>) …… (k<sub>n</sub>, v<sub>n</sub>) </p>
 <p>In this case, we can not simply ‘find the most similar’ keys, because this process is very hard to compute gradient, but it can be achieved in the following way. </p>
@@ -325,12 +325,12 @@ a(Q,K)=\frac{QK^T}{\sqrt{d}}</script><p>For the cases when q and k have differen
 <script type="math/tex; mode=display">
 a(k,q)=v^T tanh( W_kk+W_qq)</script><p>This expression is equals to concatenate the key and query, and then feed into a single hidden-layer perception with hidden size ℎ and output size 1, so we also call it Multilayer Perception Attention.</p>
 <h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h4><p>Traditionally, if we want to process sequential data, we need to combine RNN with attention, but if we purely use attention, it is still possible, which is also what transformer achieved. The architecture of transformer is shown as below </p>
-<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568406560755.png" alt="1568406560755"></p>
+<p><img src="/2019/09/12/Note-for-attention/1568406560755.png" alt="1568406560755"></p>
 <p>Basically, this is a attention version of encoder-decoder network. If you want to do a translation task some texts, the text would be the input of encoder which is the left part of transfer. Then, the encoder will encode the text (state) and output to the second Multi-head attention layer on right and this layer will use the information from the state and information from decoder input (e.g. the first few output from the decoder or the beginning signal of a sentence) to output the next word. The grey blocks of this can be repeated many times so as to construct very deep architecture.  </p>
 <p>There are mainly 4 new elements for transformer. The first one is  <strong>positional encoding</strong>. This encoding is directly added to input embedded and aims to solve the problem that the transformer haven’t contain any sequential or time related information. Position encoding can be achieved as below:</p>
-<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568407547472.png" alt="1568407547472"></p>
+<p><img src="/2019/09/12/Note-for-attention/1568407547472.png" alt="1568407547472"></p>
 <p>The second element for this is <strong>Multi-head attention</strong>. This multi-head attention aims to combine the information from different type of attention with trainable parameters for each attention, because different attention may extract different information. </p>
-<p><img src="/2019/09/12/Note-for-attention/Users\a\AppData\Roaming\Typora\typora-user-images\1568407960639.png" alt="1568407960639"></p>
+<p><img src="/2019/09/12/Note-for-attention/1568407960639.png" alt="1568407960639"></p>
 <p>The mathematical expression can shown as below</p>
 <p>Each attention head that contain trainable parameters W<sup>Q</sup>, W<sup>K</sup>, W<sup>V</sup>.</p>
 <script type="math/tex; mode=display">
