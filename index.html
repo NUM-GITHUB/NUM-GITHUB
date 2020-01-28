@@ -231,6 +231,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2020/01/27/Graph-convolutional-network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fenger">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FengerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/27/Graph-convolutional-network/" itemprop="url">Graph convolutional network</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-27T16:01:46+00:00">
+                2020-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Graph-convolutional-network"><a href="#Graph-convolutional-network" class="headerlink" title="Graph convolutional network"></a>Graph convolutional network</h1><h3 id="Basic-Definition-1"><a href="#Basic-Definition-1" class="headerlink" title="Basic Definition [1]"></a>Basic Definition [1]</h3><p><strong>Graph consists of nodes (V) and edges (E).</strong> </p>
+<p><img src="/2020/01/27/Graph-convolutional-network/graph1.png" alt="graph1"></p>
+<p>Mathematically, it is represented as </p>
+<script type="math/tex; mode=display">
+G=(V,E) \\
+V: The \ set \ of\ nodes \ in \ the \ graph \quad (v_i \in V) \\
+E: The \ set \ of\ edges \ in \ the \ graph  \quad (e_ij=(v_i,v_j) \in V)</script><p><strong>Adjacency matrix  A</strong> : The matrix that represents edges in the graph. </p>
+<script type="math/tex; mode=display">
+\textbf{A}: \  \ n×n \quad (n \ is \ the\ number \ of \ node )\\ 
+a_{ij}=1 \quad e_{ij} \in E \\
+a_{ij}=0 \quad e_{ij} \notin E \\
+a_{ii}=1</script><p>A graph also have node attribute (feature) matrix </p>
+<script type="math/tex; mode=display">
+\textbf{X} \in \textbf{ R  }^{n×d} \\
+n: \  The\ number \ of \ node \\
+d: \ The \ dimension \ of \ a \ node \ feature \ vector \\
+x_v\in \textbf{ R  }^{d}</script><p>and edge feature matrix </p>
+<script type="math/tex; mode=display">
+\textbf{X} \in \textbf{ R  }^{m×c} \\
+m: \  The\ number \ of \ edge \\
+c: \ The \ dimension \ of \ a \ edge \ feature \ vector \\
+x_{v_i,v_j} ^{e}\in \textbf{ R  }^{c}</script><p><strong>N(v)</strong>: Neighbours of a node <em>v</em>. </p>
+<script type="math/tex; mode=display">
+N(v)=\left\{ u \in V | (v,u) \in E  \right\}</script><h3 id="Graph-convolutional-network-GCN"><a href="#Graph-convolutional-network-GCN" class="headerlink" title="Graph convolutional network (GCN)"></a>Graph convolutional network (GCN)</h3><p>For each layer of GCN, each nodes’ value are updated as the following equation where x is the feature of each nodes. (σ is an activation function)</p>
+<script type="math/tex; mode=display">
+x_i^{l+1}=σ(a_{ii}x^l_i+\sum_{N(v)}a_{ij}Wx_i^l)  \\
+=σ(x^l_i+\sum_{N(v)}a_{ij}Wx_i^l)
+\\= σ(WX^la_i) \quad  (a_{ii}=1)</script><p>If you written this equation to calculate one of the node in the graph, it is easy to see that this is actually a linear neural network ( <strong>WX</strong>+b you can add bias term actually)  that just calculate the node that connect to target node.</p>
+<p><img src="/2020/01/27/Graph-convolutional-network/graph2.png" alt="graph2"></p>
+<p>For example in above graph, the graph convolution of x<sub>0</sub> is </p>
+<script type="math/tex; mode=display">
+x_0^{l+1}=σ(x_1^{l}w_1+x_3w_3+x_4w_4)</script><p>As [1] said, GCN can be considered as aggregating feature information from a node’s neighbourhood. </p>
+<h3 id="GCN-example-code"><a href="#GCN-example-code" class="headerlink" title="GCN example code:"></a>GCN example code:</h3><p>In [2], the GCN code is shown as below</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_Collection_Unit</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, dim_in, dim_out)</span>:</span></span><br><span class="line">        super(_Collection_Unit, self).__init__()</span><br><span class="line">        self.fc = nn.Linear(dim_in, dim_out, bias=<span class="literal">True</span>)</span><br><span class="line">        normal_init(self.fc, <span class="number">0</span>, <span class="number">0.01</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, target, source, attention_base)</span>:</span></span><br><span class="line">        fc_out = F.relu(self.fc(source)) <span class="comment"># (1) WX &amp; activation function</span></span><br><span class="line">        collect = torch.mm(attention_base, fc_out)  <span class="comment"># (2) WXa</span></span><br><span class="line">        collect_avg = collect/(attention_base.sum(<span class="number">1</span>).view(collect.size(<span class="number">0</span>),<span class="number">1</span>)+<span class="number">1e-7</span>) </span><br><span class="line">        <span class="keyword">return</span> collect_avg</span><br></pre></td></tr></table></figure>
+<p>Even though this is not a very typical implementation of GCN, it shows all the stages of GCN. </p>
+<p>Firstly, at initialization stage, it initialized a linear neural network layer. In this case, dim_in and dim_out are same value and equals to the number of features of for given node. In forward function, the node features (n×d) is firstly passed to the linear layer and then passed through a Relu activation function, which can be written as  σ(<strong>WX<sup>l</sup> </strong>) (n×d). Then, it is multiplied with adjacency matrix (n×n) <strong>A</strong>σ(<strong>WX<sup>l</sup> </strong>)=σ(<strong>AWX<sup>l</sup> </strong>)  (n×d). Finally, it pass through another activation function to get the final value, σ(<strong>AWX<sup>l</sup> </strong>)  (n×d). </p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p>[1] <a href="https://arxiv.org/pdf/1901.00596.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1901.00596.pdf</a></p>
+<p>[2] <a href="https://github.com/jwyang/graph-rcnn.pytorch" target="_blank" rel="noopener">https://github.com/jwyang/graph-rcnn.pytorch</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/09/12/Note-for-attention/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1758,129 +1915,13 @@ You can also plot many figures in this way
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/06/06/Get-start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fenger">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FengerBlog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/06/Get-start/" itemprop="url">Get start !</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-06T00:06:17+01:00">
-                2019-06-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>The start of my career.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1924,7 +1965,7 @@ You can also plot many figures in this way
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1972,7 +2013,7 @@ You can also plot many figures in this way
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

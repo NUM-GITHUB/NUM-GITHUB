@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="FengerBlog" type="application/atom+xml">
 
@@ -81,23 +83,20 @@
 
 
 
-<meta name="description" content="Some useful distribution related function in SeabornI recently wrote some code for training some data with ML algorithm and I found that some functions are pretty used for data analysis    distplot()">
+<meta name="description" content="Graph convolutional networkBasic Definition [1]Graph consists of nodes (V) and edges (E).   Mathematically, it is represented as   G=(V,E) \\ V: The \ set \ of\ nodes \ in \ the \ graph \quad (v_i \in">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Distribution related function in Seaborn">
-<meta property="og:url" content="https://num-github.github.io/2019/06/10/seaborn-1/index.html">
+<meta property="og:title" content="Graph convolutional network">
+<meta property="og:url" content="https://num-github.github.io/2020/01/27/Graph-convolutional-network/index.html">
 <meta property="og:site_name" content="FengerBlog">
-<meta property="og:description" content="Some useful distribution related function in SeabornI recently wrote some code for training some data with ML algorithm and I found that some functions are pretty used for data analysis    distplot()">
+<meta property="og:description" content="Graph convolutional networkBasic Definition [1]Graph consists of nodes (V) and edges (E).   Mathematically, it is represented as   G=(V,E) \\ V: The \ set \ of\ nodes \ in \ the \ graph \quad (v_i \in">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-12-30.png">
-<meta property="og:image" content="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-37-08.png">
-<meta property="og:image" content="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-26-08.png">
-<meta property="og:image" content="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_01-12-02.png">
-<meta property="og:image" content="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_01-19-24.png">
-<meta property="og:updated_time" content="2019-06-10T01:21:51.489Z">
+<meta property="og:image" content="https://num-github.github.io/2020/01/27/Graph-convolutional-network/graph1.png">
+<meta property="og:image" content="https://num-github.github.io/2020/01/27/Graph-convolutional-network/graph2.png">
+<meta property="og:updated_time" content="2020-01-28T00:24:42.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Distribution related function in Seaborn">
-<meta name="twitter:description" content="Some useful distribution related function in SeabornI recently wrote some code for training some data with ML algorithm and I found that some functions are pretty used for data analysis    distplot()">
-<meta name="twitter:image" content="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-12-30.png">
+<meta name="twitter:title" content="Graph convolutional network">
+<meta name="twitter:description" content="Graph convolutional networkBasic Definition [1]Graph consists of nodes (V) and edges (E).   Mathematically, it is represented as   G=(V,E) \\ V: The \ set \ of\ nodes \ in \ the \ graph \quad (v_i \in">
+<meta name="twitter:image" content="https://num-github.github.io/2020/01/27/Graph-convolutional-network/graph1.png">
 
 
 
@@ -127,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://num-github.github.io/2019/06/10/seaborn-1/">
+  <link rel="canonical" href="https://num-github.github.io/2020/01/27/Graph-convolutional-network/">
 
 
 
 
 
-  <title>Distribution related function in Seaborn | FengerBlog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Graph convolutional network | FengerBlog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -240,7 +239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2019/06/10/seaborn-1/">
+    <link itemprop="mainEntityOfPage" href="https://num-github.github.io/2020/01/27/Graph-convolutional-network/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fenger">
@@ -257,7 +256,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Distribution related function in Seaborn</h1>
+          <h1 class="post-title" itemprop="name headline">Graph convolutional network</h1>
         
 
         <div class="post-meta">
@@ -269,8 +268,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-10T01:30:07+01:00">
-                2019-06-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-27T16:01:46+00:00">
+                2020-01-27
               </time>
             
 
@@ -307,105 +306,45 @@
       
 
       
-        <h1 id="Some-useful-distribution-related-function-in-Seaborn"><a href="#Some-useful-distribution-related-function-in-Seaborn" class="headerlink" title="Some useful distribution related function in Seaborn"></a>Some useful distribution related function in Seaborn</h1><p><em><font size="1" color="gray">I recently wrote some code for training some data with ML algorithm and I found that some functions are pretty used for data analysis</font></em></p>
-<details open>
-<summary><font size="4">  distplot() </font></summary>
+        <h1 id="Graph-convolutional-network"><a href="#Graph-convolutional-network" class="headerlink" title="Graph convolutional network"></a>Graph convolutional network</h1><h3 id="Basic-Definition-1"><a href="#Basic-Definition-1" class="headerlink" title="Basic Definition [1]"></a>Basic Definition [1]</h3><p><strong>Graph consists of nodes (V) and edges (E).</strong> </p>
+<p><img src="/2020/01/27/Graph-convolutional-network/graph1.png" alt="graph1"></p>
+<p>Mathematically, it is represented as </p>
+<script type="math/tex; mode=display">
+G=(V,E) \\
+V: The \ set \ of\ nodes \ in \ the \ graph \quad (v_i \in V) \\
+E: The \ set \ of\ edges \ in \ the \ graph  \quad (e_ij=(v_i,v_j) \in V)</script><p><strong>Adjacency matrix  A</strong> : The matrix that represents edges in the graph. </p>
+<script type="math/tex; mode=display">
+\textbf{A}: \  \ n×n \quad (n \ is \ the\ number \ of \ node )\\ 
+a_{ij}=1 \quad e_{ij} \in E \\
+a_{ij}=0 \quad e_{ij} \notin E \\
+a_{ii}=1</script><p>A graph also have node attribute (feature) matrix </p>
+<script type="math/tex; mode=display">
+\textbf{X} \in \textbf{ R  }^{n×d} \\
+n: \  The\ number \ of \ node \\
+d: \ The \ dimension \ of \ a \ node \ feature \ vector \\
+x_v\in \textbf{ R  }^{d}</script><p>and edge feature matrix </p>
+<script type="math/tex; mode=display">
+\textbf{X} \in \textbf{ R  }^{m×c} \\
+m: \  The\ number \ of \ edge \\
+c: \ The \ dimension \ of \ a \ edge \ feature \ vector \\
+x_{v_i,v_j} ^{e}\in \textbf{ R  }^{c}</script><p><strong>N(v)</strong>: Neighbours of a node <em>v</em>. </p>
+<script type="math/tex; mode=display">
+N(v)=\left\{ u \in V | (v,u) \in E  \right\}</script><h3 id="Graph-convolutional-network-GCN"><a href="#Graph-convolutional-network-GCN" class="headerlink" title="Graph convolutional network (GCN)"></a>Graph convolutional network (GCN)</h3><p>For each layer of GCN, each nodes’ value are updated as the following equation where x is the feature of each nodes. (σ is an activation function)</p>
+<script type="math/tex; mode=display">
+x_i^{l+1}=σ(a_{ii}x^l_i+\sum_{N(v)}a_{ij}Wx_i^l)  \\
+=σ(x^l_i+\sum_{N(v)}a_{ij}Wx_i^l)
+\\= σ(WX^la_i) \quad  (a_{ii}=1)</script><p>If you written this equation to calculate one of the node in the graph, it is easy to see that this is actually a linear neural network ( <strong>WX</strong>+b you can add bias term actually)  that just calculate the node that connect to target node.</p>
+<p><img src="/2020/01/27/Graph-convolutional-network/graph2.png" alt="graph2"></p>
+<p>For example in above graph, the graph convolution of x<sub>0</sub> is </p>
+<script type="math/tex; mode=display">
+x_0^{l+1}=σ(x_1^{l}w_1+x_3w_3+x_4w_4)</script><p>As [1] said, GCN can be considered as aggregating feature information from a node’s neighbourhood. </p>
+<h3 id="GCN-example-code"><a href="#GCN-example-code" class="headerlink" title="GCN example code:"></a>GCN example code:</h3><p>In [2], the GCN code is shown as below</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_Collection_Unit</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, dim_in, dim_out)</span>:</span></span><br><span class="line">        super(_Collection_Unit, self).__init__()</span><br><span class="line">        self.fc = nn.Linear(dim_in, dim_out, bias=<span class="literal">True</span>)</span><br><span class="line">        normal_init(self.fc, <span class="number">0</span>, <span class="number">0.01</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, target, source, attention_base)</span>:</span></span><br><span class="line">        fc_out = F.relu(self.fc(source)) <span class="comment"># (1) WX &amp; activation function</span></span><br><span class="line">        collect = torch.mm(attention_base, fc_out)  <span class="comment"># (2) WXa</span></span><br><span class="line">        collect_avg = collect/(attention_base.sum(<span class="number">1</span>).view(collect.size(<span class="number">0</span>),<span class="number">1</span>)+<span class="number">1e-7</span>) </span><br><span class="line">        <span class="keyword">return</span> collect_avg</span><br></pre></td></tr></table></figure>
+<p>Even though this is not a very typical implementation of GCN, it shows all the stages of GCN. </p>
+<p>Firstly, at initialization stage, it initialized a linear neural network layer. In this case, dim_in and dim_out are same value and equals to the number of features of for given node. In forward function, the node features (n×d) is firstly passed to the linear layer and then passed through a Relu activation function, which can be written as  σ(<strong>WX<sup>l</sup> </strong>) (n×d). Then, it is multiplied with adjacency matrix (n×n) <strong>A</strong>σ(<strong>WX<sup>l</sup> </strong>)=σ(<strong>AWX<sup>l</sup> </strong>)  (n×d). Finally, it pass through another activation function to get the final value, σ(<strong>AWX<sup>l</sup> </strong>)  (n×d). </p>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p>[1] <a href="https://arxiv.org/pdf/1901.00596.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1901.00596.pdf</a></p>
+<p>[2] <a href="https://github.com/jwyang/graph-rcnn.pytorch" target="_blank" rel="noopener">https://github.com/jwyang/graph-rcnn.pytorch</a></p>
 
-distplot() function are able to show univariate distribution. For more detailed information, click <a href="https://seaborn.pydata.org/tutorial/distributions.html#distribution-tutorial" target="_blank" rel="noopener"> here</a>. 
-
-*<font size="2" color="gray">   If you want to know a distribution of a numerical feature, you can try this.</font>*
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import seaborn as sns </span><br><span class="line">sns.distplot(Input[0],label=&apos;Input&apos;,color=&apos;g&apos;)</span><br></pre></td></tr></table></figure>
-
-#### The commonly used parameters : 
-
-* The input data 
-* label: It will show on legend once you call **plt.legend()**. 
-* Color: The color of the histogram and lines *(parameters are similar to matlab and the default color for first line is blue)*.
-
-You can draw distribution of one dimensional data by this with matplotlib.pyplot.
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import seaborn as sns </span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">plt.figure()</span><br><span class="line"># Sometimes you may need to transpose(.T) your numpy array </span><br><span class="line">sns.distplot(fail_data[0],label=&apos;fail_data&apos;,color=&apos;g&apos;)</span><br><span class="line">plt.legend();</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-fail_data[0] is the first dimension of my data. The Result looks like that.
-
-<div align="center">
-
-<img src="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-12-30.png" height="300" width="400">
-
-</div>
-
-Your image could be quite different, but both **histogram** and  <a href="https://en.wikipedia.org/wiki/Kernel_density_estimation" target="_blank" rel="noopener"> kernel density estimate (KDE)</a> line .
-
-You could choose to remove histogram by setting **<font color="blue">hist=False</font>** or KDE by **<font color="blue">kde=False</font>**
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">sns.distplot(hist=False,fail_data[0],label=&apos;fail_data&apos;,color=&apos;g&apos;)</span><br><span class="line">plt.legend();</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<div align="center">
-
-<img src="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-37-08.png" height="300" width="400">
-
-</div>
-
-
-
-
-If you want to draw more than one distribution on same figure, just add anther above plt.show()
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">sns.distplot(scuss_data[2],label=&apos;scuss_data&apos;)</span><br><span class="line">sns.distplot(fail_data[2],color=&apos;g&apos;,label=&apos;fail_data&apos;)</span><br><span class="line">plt.legend();</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<div align="center">
-
-<img src="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_00-26-08.png" height="300" width="400">
-
-</div>
-</details>
-
-
-<details open>
-<summary><font size="4">  violinplot() </font></summary>
-It is still used for showing distribution. The data I used here are look like that:
-<div align="center">
-
-
-|0       |    1         |2      |    3|
-|:--:|:--:|:--:|:--:|
-| 0.000020        |0.001459    |7.992451|    1.0|
-| 0.000021    |0.001149    |6.903953    |0.0|
-|    0.000029|0.001637|    6.512294    |0.0|
-|    0.000028|0.001208|    1.936095    |1.0|
-。。。。。。。。。。。。。。。。 
-
-</div>
-The first 3 rows are values correspond to feature 0,1,2.
-The third row is classes (only 0 and 1)
-
-Thus, if I want to find the distribution of feature 1 in each class, we can just write 
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">sns.violinplot(x=3,y=1, data=pd.DataFrame(data))</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<div align="center">
-
-<img src="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_01-12-02.png" height="300" width="400">
-
-</div>
-
-* x is class row
-* y is feature row
-* Input data must be pandas data structure.
-* You can also input the name (string) of each row to x and y, if you have.
-
-You can also plot many figures in this way 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f, ax1 = plt.subplots(ncols=2, nrows=2, figsize=(8, 8))</span><br><span class="line">sns.violinplot(x=3,y=0, data=pd.DataFrame(data),ax=ax1[0][0])</span><br><span class="line">ax1[0][0].set_title(&apos;x&apos;)</span><br><span class="line">sns.violinplot(x=3,y=1, data=pd.DataFrame(data),ax=ax1[0][1])</span><br><span class="line">ax1[0][1].set_title(&apos;y&apos;)</span><br><span class="line">sns.violinplot(x=3,y=2, data=pd.DataFrame(data),ax=ax1[1][0])</span><br><span class="line">ax1[1][0].set_title(&apos;z&apos;)</span><br><span class="line">f.tight_layout()</span><br></pre></td></tr></table></figure>
-
-* ax can be used to set the position of figures
-
-<div align="center">
-
-<img src="https://num-github.github.io/2019/06/10/seaborn-1/chrome_2019-06-10_01-19-24.png" height="300" width="400">
-
-</div>
-
-</details>
       
     </div>
     
@@ -429,8 +368,8 @@ You can also plot many figures in this way
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/06/Get-start/" rel="next" title="Get start !">
-                <i class="fa fa-chevron-left"></i> Get start !
+              <a href="/2019/09/12/Note-for-attention/" rel="next" title="Note for attention">
+                <i class="fa fa-chevron-left"></i> Note for attention
               </a>
             
           </div>
@@ -438,10 +377,6 @@ You can also plot many figures in this way
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/30/Problems-for-using-gpu-for-Tensorflow-or-Keras-network-on-linux/" rel="prev" title="Problems for using gpu for Tensorflow or Keras network on linux">
-                Problems for using gpu for Tensorflow or Keras network on linux <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -562,7 +497,7 @@ You can also plot many figures in this way
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Some-useful-distribution-related-function-in-Seaborn"><span class="nav-number">1.</span> <span class="nav-text">Some useful distribution related function in Seaborn</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Graph-convolutional-network"><span class="nav-number">1.</span> <span class="nav-text">Graph convolutional network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Basic-Definition-1"><span class="nav-number">1.0.1.</span> <span class="nav-text">Basic Definition [1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Graph-convolutional-network-GCN"><span class="nav-number">1.0.2.</span> <span class="nav-text">Graph convolutional network (GCN)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GCN-example-code"><span class="nav-number">1.0.3.</span> <span class="nav-text">GCN example code:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
